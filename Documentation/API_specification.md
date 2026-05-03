@@ -9,6 +9,8 @@
 | :------- | :------- | :------------------------------------------------------------------------------------ | :-------------------- |
 | `filter` | `string` | Only rooms where the name contains the given filter are returned. Not case sensitive. | `?filter=suite`       |
 | `sort`   | `string` | The room's attribute by which the returned list should be sorted.                     | `?sort=pricePerNight` |
+| `page`   | `number` | MANDATORY! Current page that should be loaded.                                        | `?page=1` |
+| `size`   | `number` | Number of elements returned with the current page load. Default = 5                   | `?size=5` |
 #### Responses
 
 | Code                        | Description                                           | Content                   |
@@ -23,10 +25,48 @@
 			"id": Guid,
 			"name": string,
 			"description": string,
-			"pricePerNight": double
+			"pricePerNight": double,
+            "extras": string[],
+            "imagePaths": string[]
 		},
 		...
-	]
+	],
+    "page": {
+        "size": number,
+        "totalElements": number,
+        "totalPages": number,
+        "number": number
+    }
+}
+```
+##### Error
+```
+{
+	"errorMessage": string
+}
+```
+
+---
+### Check Room Availability
+- **URL**: `/rooms/:id/availability`
+- **Method**: GET
+#### Parameters
+
+| Name     | Type     | Description                                            | Example            |
+| :------- | :------- | :----------------------------------------------------- | :----------------- |
+| `from`   | `date`   | May not lie in the past and has to be set before "to". | `?from=2026-05-02` |
+| `to`     | `date`   | May not lie in the past and has to be set after "from". | `?to=2026-05-03`  |
+#### Responses
+
+| Code                        | Description                                           | Content                   |
+| :-------------------------- | :---------------------------------------------------- | :------------------------ |
+| `200 OK`                    | Returns if the room is available for the selected timespan. | [Availability](#availability) |
+| `404 Not Found`             | No room with the given id found. | [Error](#errordto)           |
+| `500 Internal Server Error` | Something went wrong, please contact our service-desk | [Error](#errordto)           |
+##### Success
+```
+{
+    "available": boolean
 }
 ```
 ##### Error
@@ -52,41 +92,12 @@
 	"id": Guid,
 	"name": string,
 	"description": string,
-	"pricePerNight": double
+	"pricePerNight": double,
+    "extras": string[],
+    "imagePaths": string[]
 }
 ```
 ##### Error
-```
-{
-	"errorMessage": string
-}
-```
-
----
-### Get Room Images
-- **URL**: `/rooms/:id/images`
-- **Method**: GET
-#### Description
-Fetches all images for a given room as base64 encoded strings.
-#### Parameters
-
-| Name   | Type     | Description                                                         | Example               |
-| :----- | :------- | :------------------------------------------------------------------ | :-------------------- |
-| `name` | `string` | Filters images by their name. Case insensitive. Substrings allowed. | `?filter=bathroom`    |
-#### Responses
-| Code                        | Description                                           | Content                          |
-| :-------------------------- | :---------------------------------------------------- | :------------------------------- |
-| `200 OK`                    | Success                                               | [List of Image-Data](#list-of-images) |
-| `404 Not Found`             | The requested room id does not exist                  | [Error](#errordto)                |
-| `500 Internal Server Error` | Something went wrong, please contact our service-desk | [Error](#errordto)                |
-##### Success
-```
-{
-	"imageData": string[]
-}
-```
-##### Error
-
 ```
 {
 	"errorMessage": string
@@ -97,6 +108,13 @@ Fetches all images for a given room as base64 encoded strings.
 - **Method**: GET
 #### Description
 Fetches all bookings for a given room id.
+#### Parameters
+
+| Name     | Type     | Description                                                                           | Example               |
+| :------- | :------- | :------------------------------------------------------------------------------------ | :-------------------- |
+| `page`   | `number` | Current page that should be loaded. If omitted, all data is returned.                     | `?page=1` |
+| `size`   | `number` | Number of elements returned with the current page load. If omitted, all data is returned. | `?size=5` |
+
 #### Responses
 | Code                        | Description                                           | Content                        |
 | :-------------------------- | :---------------------------------------------------- | :----------------------------- |
@@ -105,46 +123,30 @@ Fetches all bookings for a given room id.
 | `500 Internal Server Error` | Something went wrong, please contact our service-desk | [Error](#errordto)              |
 ##### Success
 ```
-[
-	{
-		"id": Guid,
-		"userMail": string,
-		"roomId": Guid,
-		"from": DateTime,
-		"to": DateTime,
-		"breakfast": boolean,
-		"duration": number,
-		"totalPrice": number
-	},
-	...
-]
+{
+    "bookings": [
+        {
+            "id": Guid,
+            "userId": Guid,
+            "roomId": Guid,
+            "from": DateTime,
+            "to": DateTime,
+            "breakfast": boolean,
+            "duration": number,
+            "totalPrice": number
+        },
+        ...
+    ],
+    "page": {
+        "size": number,
+        "totalElements": number,
+        "totalPages": number,
+        "number": number
+    }
+}
 ```
 ##### Error
 
-```
-{
-	"errorMessage": string
-}
-```
-## Images
-### Get Image
-- **URL**: `/images/:id`
-- **Method**: GET
-#### Description
-Fetches an image by its unique id. Returns image's data as base64 encoded string.
-#### Responses
-| Code                        | Description                                           | Content             |
-| :-------------------------- | :---------------------------------------------------- | :------------------ |
-| `200 OK`                    | Success                                               | [Image](#image) |
-| `404 Not Found`             | The requested room id does not exist                  | [Error](#errordto)   |
-| `500 Internal Server Error` | Something went wrong, please contact our service-desk | [Error](#errordto)   |
-##### Success
-```
-{
-	"imageData": string
-}
-```
-##### Error
 ```
 {
 	"errorMessage": string
@@ -155,22 +157,27 @@ Fetches an image by its unique id. Returns image's data as base64 encoded string
 - **URL**: `/bookings
 - **Method**: POST
 #### Description
-Creates a booking for a user and a room for a selected time range. DateTime is expected in the following format: 'YYYY-MM-DD'.
+Creates a booking for a user and a room for a selected time range. DateTime is expected in the following format: 'YYYY-MM-DD'. Either a userId or guest element has to be transmitted with the body. If a guest element is provided, either the user with the given email is returned or a new user is created from it.
 #### Body
 ```
 {
-	"userId": Guid,
 	"roomId": Guid,
 	"from": DateTime,
 	"to": DateTime,
-	"breakfast": boolean
+	"breakfast": boolean,
+    "userId": Guid | null,
+    "guest": {
+        "firstName": string,
+        "lastName": string,
+        "email": string
+    } | null
 }
 ```
 #### Responses
 | Code                        | Description                                                                                                        | Content               |
 | :-------------------------- | :----------------------------------------------------------------------------------------------------------------- | :-------------------- |
 | `201 Created`               | Success                                                                                                            | [Booking](#booking) |
-| `400 Bad Request`           | The sent request body was malformed. This includes illegal roomId or userId. Also if "to" is set before "from", or any of them lies in the past. | [Error](#errordto)     |
+| `400 Bad Request`           | The sent request body was malformed. This includes illegal roomId, if "to" is set before "from", or any of them lies in the past. Also if neither a "guest" nor a "userId" is given.| [Error](#errordto)     |
 | `409 Conflict`              | The requested room is no longer available for the selected time range. Maybe the process of booking took too long. | [Error](#errordto)     |
 | `500 Internal Server Error` | Something went wrong, please contact our service-desk                                                              | [Error](#errordto)     |
 ##### Success
@@ -196,22 +203,27 @@ Creates a booking for a user and a room for a selected time range. DateTime is e
 - **URL**: `/bookings/:id
 - **Method**: PUT
 #### Description
-Updates a booking. Idempotent. DateTime is expected in the following format: 'YYYY-MM-DD'.
+Updates a booking. Idempotent. DateTime is expected in the following format: 'YYYY-MM-DD'.  Either a userId or guest element has to be transmitted with the body. If a guest element is provided, either the user with the given email is returned or a new user is created from it.
 #### Body
 ```
 {
-	"userId": Guid,
 	"roomId": Guid,
 	"from": DateTime,
 	"to": DateTime,
-	"breakfast": boolean
+	"breakfast": boolean,
+    "userId": Guid | null,
+    "guest": {
+        "firstName": string,
+        "lastName": string,
+        "email": string
+    } | null
 }
 ```
 #### Responses
 | Code                        | Description                                                                                                  | Content               |
 | :-------------------------- | :----------------------------------------------------------------------------------------------------------- | :-------------------- |
 | `200 OK`                    | Success                                                                                                      | [Booking](#booking) |
-| `400 Bad Request`           | The sent request body was malformed. This includes illegal roomId or userId. Also if "to" is set before "from", or any of them lies in the past. | [Error](#errordto)     |
+| `400 Bad Request`           | The sent request body was malformed. This includes illegal roomId, if "to" is set before "from", or any of them lies in the past. Also if neither a "guest" nor a "userId" is given. | [Error](#errordto)     |
 | `404 Not Found`             | The requested booking id does not exist                                                                      | [Error](#errordto)     |
 | `409 Conflict`              | The requested room is not available for the selected time range. Maybe the process of booking took too long. | [Error](#errordto)     |
 | `500 Internal Server Error` | Something went wrong, please contact our service-desk                                                        | [Error](#errordto)     |
@@ -256,6 +268,13 @@ Cancels and deletes the given booking.
 - **Method**: GET
 #### Description
 Fetches a list of all bookings.
+#### Parameters
+
+| Name     | Type     | Description                                                                           | Example               |
+| :------- | :------- | :------------------------------------------------------------------------------------ | :-------------------- |
+| `page`   | `number` | Current page that should be loaded. If omitted, all data is returned.                     | `?page=1` |
+| `size`   | `number` | Number of elements returned with the current page load. If omitted, all data is returned. | `?size=5` |
+
 #### Responses
 | Code                        | Description                                           | Content                        |
 | :-------------------------- | :---------------------------------------------------- | :----------------------------- |
@@ -263,19 +282,27 @@ Fetches a list of all bookings.
 | `500 Internal Server Error` | Something went wrong, please contact our service-desk | [Error](#errordto)              |
 ##### Success
 ```
-[
-	{
-		"id": Guid,
-		"userMail": string,
-		"roomId": Guid,
-		"from": DateTime,
-		"to": DateTime,
-		"breakfast": boolean,
-		"duration": number,
-		"totalPrice": number
-	},
-	...
-]
+{
+    "bookings": [
+        {
+            "id": Guid,
+            "userId": Guid,
+            "roomId": Guid,
+            "from": DateTime,
+            "to": DateTime,
+            "breakfast": boolean,
+            "duration": number,
+            "totalPrice": number
+        },
+        ...
+    ],
+    "page": {
+        "size": number,
+        "totalElements": number,
+        "totalPages": number,
+        "number": number
+    }
+}
 ```
 ##### Error
 ```
@@ -324,6 +351,13 @@ Creates a new user.
 - **Method**: GET
 #### Description
 Fetches a list of all users.
+#### Parameters
+
+| Name     | Type     | Description                                                                           | Example               |
+| :------- | :------- | :------------------------------------------------------------------------------------ | :-------------------- |
+| `page`   | `number` | Current page that should be loaded. If omitted, all data is returned.                     | `?page=1` |
+| `size`   | `number` | Number of elements returned with the current page load. If omitted, all data is returned. | `?size=5` |
+
 #### Responses
 | Code                        | Description                                                        | Content                     |
 | :-------------------------- | :----------------------------------------------------------------- | :-------------------------- |
@@ -331,15 +365,23 @@ Fetches a list of all users.
 | `500 Internal Server Error` | Something went wrong, please contact our service-desk              | [Error](#errordto)          |
 ##### Success
 ```
-[
-	{
-		"id": Guid,
-		"userMail": string,
-		"firstName": string,
-		"lastName": string
-	},
-	...
-]
+{
+    "users": [
+        {
+            "id": Guid,
+            "userMail": string,
+            "firstName": string,
+            "lastName": string
+        },
+        ...
+    ],
+    "page": {
+        "size": number,
+        "totalElements": number,
+        "totalPages": number,
+        "number": number
+    }
+}
 ```
 ##### Error
 ```
@@ -430,6 +472,13 @@ Deletes a user and all of his bookings cascading.
 - **Method**: GET
 #### Description
 Fetches all bookings for a given user id.
+#### Parameters
+
+| Name     | Type     | Description                                                                           | Example               |
+| :------- | :------- | :------------------------------------------------------------------------------------ | :-------------------- |
+| `page`   | `number` | Current page that should be loaded. If omitted, all data is returned.                     | `?page=1` |
+| `size`   | `number` | Number of elements returned with the current page load. If omitted, all data is returned. | `?size=5` |
+
 #### Responses
 | Code                        | Description                                           | Content                        |
 | :-------------------------- | :---------------------------------------------------- | :----------------------------- |
@@ -438,19 +487,27 @@ Fetches all bookings for a given user id.
 | `500 Internal Server Error` | Something went wrong, please contact our service-desk | [Error](#errordto)              |
 ##### Success
 ```
-[
-	{
-		"id": Guid,
-		"userMail": string,
-		"roomId": Guid,
-		"from": DateTime,
-		"to": DateTime,
-		"breakfast": boolean,
-		"duration": number,
-		"totalPrice": number
-	},
-	...
-]
+{
+    "bookings": [
+        {
+            "id": Guid,
+            "userId": Guid,
+            "roomId": Guid,
+            "from": DateTime,
+            "to": DateTime,
+            "breakfast": boolean,
+            "duration": number,
+            "totalPrice": number
+        },
+        ...
+    ],
+    "page": {
+        "size": number,
+        "totalElements": number,
+        "totalPages": number,
+        "number": number
+    }
+}
 ```
 ##### Error
 
@@ -466,7 +523,9 @@ Fetches all bookings for a given user id.
 	"id": Guid,
 	"name": string,
 	"description": string,
-	"pricePerNight": double
+	"pricePerNight": double,
+    "extras": string[],
+    "imagePaths": string[]
 }
 ```
 ### List of Rooms
@@ -477,22 +536,24 @@ Fetches all bookings for a given user id.
 			"id": Guid,
 			"name": string,
 			"description": string,
-			"pricePerNight": double
+			"pricePerNight": double,
+            "extras": string[],
+            "imagePaths": string[]
 		},
 		...
-	]
+	],
+    "page": {
+        "size": number,
+        "totalElements": number,
+        "totalPages": number,
+        "number": number
+    }
 }
 ```
-### Image
+### Availability
 ```
 {
-	"imageData": string
-}
-```
-### List of Images
-```
-{
-	"imageData": string[]
+    "available": boolean
 }
 ```
 ### Booking
@@ -510,19 +571,27 @@ Fetches all bookings for a given user id.
 ```
 ### List of Bookings
 ```
-[
-	{
-		"id": Guid,
-		"userMail": string,
-		"roomId": Guid,
-		"from": DateTime,
-		"to": DateTime,
-		"breakfast": boolean,
-		"duration": number,
-		"totalPrice": number
-	},
-	...
-]
+{
+    "bookings": [
+        {
+            "id": Guid,
+            "userId": Guid,
+            "roomId": Guid,
+            "from": DateTime,
+            "to": DateTime,
+            "breakfast": boolean,
+            "duration": number,
+            "totalPrice": number
+        },
+        ...
+    ],
+    "page": {
+        "size": number,
+        "totalElements": number,
+        "totalPages": number,
+        "number": number
+    }
+}
 ```
 ### User
 ```
@@ -536,15 +605,23 @@ Fetches all bookings for a given user id.
 ### List of Users
 
 ```
-[
-	{
-		"id": Guid,
-		"userMail": string,
-		"firstName": string,
-		"lastName": string
-	},
-	...
-]
+{
+    "users": [
+        {
+            "id": Guid,
+            "userMail": string,
+            "firstName": string,
+            "lastName": string
+        },
+        ...
+    ],
+    "page": {
+        "size": number,
+        "totalElements": number,
+        "totalPages": number,
+        "number": number
+    }
+}
 ```
 ### ErrorDto
 ```
