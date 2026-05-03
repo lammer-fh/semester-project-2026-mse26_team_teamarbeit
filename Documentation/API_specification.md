@@ -155,7 +155,7 @@ Fetches an image by its unique id. Returns image's data as base64 encoded string
 - **URL**: `/bookings
 - **Method**: POST
 #### Description
-Creates a booking for a user and a room for a selected time range.
+Creates a booking for a user and a room for a selected time range. DateTime is expected in the following format: 'YYYY-MM-DD'.
 #### Body
 ```
 {
@@ -170,7 +170,7 @@ Creates a booking for a user and a room for a selected time range.
 | Code                        | Description                                                                                                        | Content               |
 | :-------------------------- | :----------------------------------------------------------------------------------------------------------------- | :-------------------- |
 | `201 Created`               | Success                                                                                                            | [Booking](#booking) |
-| `400 Bad Request`           | The sent request body was malformed. This includes illegal roomId or userId.                                       | [Error](#errordto)     |
+| `400 Bad Request`           | The sent request body was malformed. This includes illegal roomId or userId. Also if "to" is set before "from", or any of them lies in the past. | [Error](#errordto)     |
 | `409 Conflict`              | The requested room is no longer available for the selected time range. Maybe the process of booking took too long. | [Error](#errordto)     |
 | `500 Internal Server Error` | Something went wrong, please contact our service-desk                                                              | [Error](#errordto)     |
 ##### Success
@@ -196,7 +196,7 @@ Creates a booking for a user and a room for a selected time range.
 - **URL**: `/bookings/:id
 - **Method**: PUT
 #### Description
-Updates a booking. Idempotent.
+Updates a booking. Idempotent. DateTime is expected in the following format: 'YYYY-MM-DD'.
 #### Body
 ```
 {
@@ -211,7 +211,7 @@ Updates a booking. Idempotent.
 | Code                        | Description                                                                                                  | Content               |
 | :-------------------------- | :----------------------------------------------------------------------------------------------------------- | :-------------------- |
 | `200 OK`                    | Success                                                                                                      | [Booking](#booking) |
-| `400 Bad Request`           | The sent request body was malformed.                                                                         | [Error](#errordto)     |
+| `400 Bad Request`           | The sent request body was malformed. This includes illegal roomId or userId. Also if "to" is set before "from", or any of them lies in the past. | [Error](#errordto)     |
 | `404 Not Found`             | The requested booking id does not exist                                                                      | [Error](#errordto)     |
 | `409 Conflict`              | The requested room is not available for the selected time range. Maybe the process of booking took too long. | [Error](#errordto)     |
 | `500 Internal Server Error` | Something went wrong, please contact our service-desk                                                        | [Error](#errordto)     |
@@ -286,7 +286,7 @@ Fetches a list of all bookings.
 
 ## Users
 ### Create User
-- **URL**: `/user
+- **URL**: `/users
 - **Method**: POST
 #### Description
 Creates a new user.
@@ -299,11 +299,11 @@ Creates a new user.
 }
 ```
 #### Responses
-| Code                        | Description                                                        | Content            |
-| :-------------------------- | :----------------------------------------------------------------- | :----------------- |
-| `201 Created`               | Success                                                            | [User](#user) |
-| `400 Bad Request`           | The sent request body was malformed or mail is already registered. | [Error](#errordto)  |
-| `500 Internal Server Error` | Something went wrong, please contact our service-desk              | [Error](#errordto)  |
+| Code                        | Description                                                                                                  | Content            |
+| :-------------------------- | :----------------------------------------------------------------------------------------------------------- | :----------------- |
+| `201 Created`               | Success                                                                                                      | [User](#user) |
+| `400 Bad Request`           | The sent request body was malformed or mail is already registered. Also if mail is not a valid mail address. | [Error](#errordto)  |
+| `500 Internal Server Error` | Something went wrong, please contact our service-desk                                                        | [Error](#errordto)  |
 ##### Success
 ```
 {
@@ -320,7 +320,7 @@ Creates a new user.
 }
 ```
 ### Get users
-- **URL**: `/user
+- **URL**: `/users
 - **Method**: GET
 #### Description
 Fetches a list of all users.
@@ -348,27 +348,24 @@ Fetches a list of all users.
 }
 ```
 ### Get user details
-- **URL**: `/user/:id
+- **URL**: `/users/:id
 - **Method**: GET
 #### Description
 Fetches a specific user by his id.
 #### Responses
 | Code                        | Description                                           | Content                     |
 | :-------------------------- | :---------------------------------------------------- | :-------------------------- |
-| `200 OK`                    | Success                                               | [List of Users](#list-of-users) |
+| `200 OK`                    | Success                                               | [User](#user) |
 | `404 Not Found`             | No user with the given id found                       | [Error](#errordto)          |
 | `500 Internal Server Error` | Something went wrong, please contact our service-desk | [Error](#errordto)          |
 ##### Success
 ```
-[
-	{
-		"id": Guid,
-		"userMail": string,
-		"firstName": string,
-		"lastName": string
-	},
-	...
-]
+{
+    "id": Guid,
+    "userMail": string,
+    "firstName": string,
+    "lastName": string
+}
 ```
 ##### Error
 ```
@@ -393,7 +390,7 @@ Updates a user. Idempotent.
 | Code                        | Description                                           | Content             |
 | :-------------------------- | :---------------------------------------------------- | :------------------ |
 | `200 OK`                    | Success                                               | [User](#user) |
-| `400 Bad Request`           | The sent request body was malformed.                  | [Error](#errordto)  |
+| `400 Bad Request`           | The sent request body was malformed or mail is already registered. Also if mail is not a valid mail address. | [Error](#errordto)  |
 | `404 Not Found`             | The requested user id does not exist                  | [Error](#errordto)  |
 | `500 Internal Server Error` | Something went wrong, please contact our service-desk | [Error](#errordto)  |
 ##### Success
