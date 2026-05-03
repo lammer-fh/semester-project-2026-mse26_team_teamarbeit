@@ -1,4 +1,7 @@
 ## 1. API Specification
+### KI Specs
+- Github Copilot 
+- Gemini 3.1 Pro
 ### Beschreibung / Prompt
 Nachdem ich die API Specification nach bestem Wissen und Gewissen ohne KI Unterstützung definiert hatte, hab ich sowohl die Angaben (project-assignment2026.pdf, ProjektSpezifikation2026.pdf) als auch mein API_specification.md File analysieren lassen und mit folgendem Prompt nach Verbesserungen gesucht:
 
@@ -43,3 +46,34 @@ Korrektur: Der Endpunkt POST /bookings sollte ein komplexeres DTO erwarten, das 
 Constraint: "Proper error handling, validations" (Final Delivery).
 Fehler in der API: Deine Fehler sind sehr generisch ({ "errorMessage": "string" }).
 Korrektur: Ein standardisiertes Fehlerobjekt bei Formularfehlern (wie z.B. in Spring Boot üblich: eine Liste von Feld-Fehlern) wäre sinnvoll, damit das Vue3 Frontend dem User sagen kann, welches Feld falsch ausgefüllt ist.
+### Next Steps
+Ich habe dementsprechend die Punkte (1), (2), (3), (4) und (5) übernommen.
+
+## 2. DB_Design
+### Beschreibung
+Selbiges habe ich nun auch für das DB Schema gemacht. Im selben KI-Chat habe ich folgenden Prompt genutzt: `now please do the same for my db_design.md`
+### Ergebnis
+1. Die M:N-Beziehung zwischen ROOM und ROOM_EXTRA
+Aktuell: ROOM }o--o{ ROOM_EXTRA
+Analyse: Im rein logischen ER-Diagramm ist eine Many-to-Many-Beziehung (M:N) erlaubt. In einer relationalen MySQL-Datenbank kann man das aber nicht direkt abbilden. Du benötigst dafür eine Junction Table (Verbindungstabelle).
+Lösungsvorschlag für das Diagramm & Spring Boot:
+Beim Implementieren mit JPA nutzt du @ManyToMany mit einer @JoinTable. Um das ER-Diagramm näher an das tatsächliche MySQL-Schema zu bringen, empfiehlt es sich oft, die Verbindungstabelle explizit im Mermaid einzuzeichnen, z.B. ROOM_HAS_EXTRA mit RoomId und ExtraName als zusammengesetztem Primärschlüssel. Alternativ kannst du es als abstraktes Modell so belassen, solltest es im Hinterkopf aber für Milestone 2 wissen.
+
+2. Datentyp DateTime für Buchungen
+Aktuell: From DateTime und To DateTime in BOOKING
+Analyse: Ein Hotelzimmer wird tageweise gebucht, Check-in und Check-out Zeiten sind in der Regel fix (z.B. ab 15:00 Uhr, bis 11:00 Uhr). Wenn du einen DateTime (oder TIMESTAMP) verwendest, riskierst du Zeitzonen-Bugs im Frontend (ein Raum wird am 01.05. gebucht, aber im UI als 30.04. 23:00 Uhr angezeigt). Die API-Spec verwendet für das JSON bereits YYYY-MM-DD.
+Lösungsvorschlag: Ändere den Typen auf Date (in MySQL entspricht das DATE ohne Zeitstempel).
+
+3. "Calculated" Felder: Duration und TotalPrice
+Aktuell: Beide sind als "Calculated" markiert.
+Analyse:
+
+TotalPrice in der DB zu speichern, ist absolut richtig (Best Practice)! Wenn das Hotel nächstes Jahr den PricePerNight im ROOM anhebt, dürfen alte Rechnungen/Buchungen sich nicht automatisch verändern. Der Preis zum Zeitpunkt der Buchung muss als "Snapshot" eingefroren werden.
+Duration: Die Dauer der Nächte lässt sich jederzeit mit 100%iger Genauigkeit berechnen (DATEDIFF(To, From)). Das Speichern als eigene Spalte redundant und eine Verletzung der Normalisierungsregeln (3. Normalform). Das kann im Backend On-the-Fly generiert werden.
+Lösungsvorschlag: Entferne Duration als Feld aus der Datenbank-Tabelle. Es reicht, wenn das Backendmaß es für das DTO (API-Ausgabe) berechnet.
+4. Umgang mit Stornierungen (U4: "Cancel Booking")
+Aktuell: Die API hat einen Endpoint für DELETE /bookings/:id. Im ER-Diagramm gibt es keine Hinweise auf den Buchungsstatus.
+Analyse: Buchungsdaten haben oft eine rechtliche und buchhalterische Relevanz. Ein hartes Löschen (Hard Delete, via DELETE FROM booking...) ist meistens unerwünscht.
+Lösungsvorschlag: Füge der Tabelle BOOKING einen Status hinzu, z.B. Status string (Values: z.B. "CONFIRMED", "CANCELLED"). So kannst du beim "Stornieren" einfach den Status updaten, anstatt den Datensatz endgültig aus MySQL zu löschen (sog. Soft-Delete).
+### Next Steps
+Ich habe dementsprechend die Punkte (2), (3) und (4) übernommen und das Schema angepasst. Punkt (1) habe ich absichtlich nicht übernommen, da durch die zusätzliche Tabelle meiner Meinung nach kein Mehrwert geschaffen wird.

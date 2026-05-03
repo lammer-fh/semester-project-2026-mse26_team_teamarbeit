@@ -15,10 +15,10 @@
             Id Guid PK
             UserId Guid FK
             RoomId Guid FK
-            From DateTime
-            To DateTime
+            From Date
+            To Date
             Breakfast boolean
-            Duration integer "Calculated"
+            Status string "e.g. PENDING, CONFIRMED, CANCELLED"
             TotalPrice double "Calculated"
         }
         ROOM {
