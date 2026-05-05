@@ -1,13 +1,15 @@
-# Paper Prototype – UI Flow
+# Paper Prototype
 
 Dieses Dokument zeigt den UI-Flow der App anhand von Paper-Prototype-Screenshots.  
 Die Screens sind in der Reihenfolge dargestellt, in der sie durch Navigation (Button-Klicks) erreicht werden.
 
 # Ui Flow Diagramm:
-
-Unter folgendem Link befindet sich das UI Flow Diagramm, welches die Navigation zwischen den Screens darstellt:
+Unter folgendem Link befindet sich das UI Flow Diagramm, welches die Navigation zwischen den Screens darstellt: <br>
 [Zur Datei](https://drive.google.com/file/d/1_h1OEVd8J6jOq1qA_-8SztKyBOq3NSFJ/view?usp=sharing)
 
+# Figma Make Prototype: 
+Unter folgendem Link befindet sich der Figma Make Prototype, welcher die Interaktionen zwischen den Screens zeigt: <br>
+[Zum Prototype](https://menu-class-01735226.figma.site/)
 
 # Mobile-Ansicht Screenshots (Figma Make):
 ## Screen 1 - Home-Page
