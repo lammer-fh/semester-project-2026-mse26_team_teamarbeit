@@ -94,34 +94,41 @@ Unter folgendem Link befindet sich der Figma Make Prototype, welcher die Interak
 
 
 ---
+
 # Desktop-Ansicht Screenshots (Figma Make):
 
 ## Screen 1 - Home-Page
 <img src="./PrototypeScreenshots\Desktop\Screenshot 2026-05-05 111647.png" width="800"/>
 <img src="./PrototypeScreenshots\Desktop\Screenshot 2026-05-05 112233.png" width="800"/>
+
 ---
 
 ## Screen 2 - Zimmer-Ansicht
 <img src="./PrototypeScreenshots\Desktop\Screenshot 2026-05-05 113111.png" width="800"/>
 <img src="./PrototypeScreenshots\Desktop\Screenshot 2026-05-05 113546.png" width="800"/>
+
 ---
 
 ## Screen 3 - Zimmer-Details
 <img src="./PrototypeScreenshots\Desktop\Screenshot 2026-05-05 113648.png" width="800"/>
+
 ---
 
 ## Screen 4 - Verfügbarkeitsprüfung
 <img src="./PrototypeScreenshots\Desktop\Screenshot 2026-05-05 113758.png" width="800"/>
 <img src="./PrototypeScreenshots\Desktop\Screenshot 2026-05-05 113851.png" width="800"/>
+
 ---
 
 ## Screen 5 - Buchungsformular
 <img src="./PrototypeScreenshots\Desktop\Screenshot 2026-05-05 114009.png" width="800"/>
+
 ---
 
 ## Screen 6 - Buchung überprüfen
 <img src="./PrototypeScreenshots\Desktop\Screenshot 2026-05-05 114710.png" width="800"/>
 <img src="./PrototypeScreenshots\Desktop\Screenshot 2026-05-05 114802.png" width="800"/>
+
 ---
 
 ## Screen 7 - Buchungsbestätigung/details
