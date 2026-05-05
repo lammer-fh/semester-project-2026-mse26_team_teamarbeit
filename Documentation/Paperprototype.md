@@ -40,7 +40,7 @@ Unter folgendem Link befindet sich der Figma Make Prototype, welcher die Interak
 
 ---
 
-## Screen 4 - Verfügbarkeitsprüfung
+## Screen 4 - Verfï¿½gbarkeitsprï¿½fung
 <img src="./PrototypeScreenshots/Mobile-Ansicht/1000041746.jpg" width="300"/>
 <img src="./PrototypeScreenshots/Mobile-Ansicht/1000041749.jpg" width="300"/>
 <img src="./PrototypeScreenshots/Mobile-Ansicht/1000041750.jpg" width="300"/>
@@ -58,7 +58,7 @@ Unter folgendem Link befindet sich der Figma Make Prototype, welcher die Interak
 
 ---
 
-## Screen 6 - Buchung überprüfen
+## Screen 6 - Buchung ï¿½berprï¿½fen
 <img src="./PrototypeScreenshots/Mobile-Ansicht/1000041758.jpg" width="300"/>
 <img src="./PrototypeScreenshots/Mobile-Ansicht/1000041760.jpg" width="300"/>
 <img src="./PrototypeScreenshots/Mobile-Ansicht/1000041762.jpg" width="300"/>
@@ -66,7 +66,7 @@ Unter folgendem Link befindet sich der Figma Make Prototype, welcher die Interak
 
 
 ---
-## Screen 7 - Buchungsbestätigung/details
+## Screen 7 - Buchungsbestï¿½tigung/details
 <img src="./PrototypeScreenshots/Mobile-Ansicht/1000041764.jpg" width="300"/>
 <img src="./PrototypeScreenshots/Mobile-Ansicht/1000041766.jpg" width="300"/>
 <img src="./PrototypeScreenshots/Mobile-Ansicht/1000041768.jpg" width="300"/>
@@ -76,7 +76,7 @@ Unter folgendem Link befindet sich der Figma Make Prototype, welcher die Interak
 
 
 ---
-## Screen 8 - Über uns
+## Screen 8 - ï¿½ber uns
 <img src="./PrototypeScreenshots/Mobile-Ansicht/1000041794.jpg" width="300"/>
 <img src="./PrototypeScreenshots/Mobile-Ansicht/1000041776.jpg" width="300"/>
 <img src="./PrototypeScreenshots/Mobile-Ansicht/1000041798.jpg" width="300"/>
@@ -88,7 +88,7 @@ Unter folgendem Link befindet sich der Figma Make Prototype, welcher die Interak
 <img src="./PrototypeScreenshots/Mobile-Ansicht/1000041804.jpg" width="300"/>
 <img src="./PrototypeScreenshots/Mobile-Ansicht/1000041806.jpg" width="300"/>
 
-## Burger-Menü
+## Burger-Menï¿½
 <img src="./PrototypeScreenshots/Mobile-Ansicht/1000041808.jpg" width="300"/>
 
 
@@ -114,7 +114,7 @@ Unter folgendem Link befindet sich der Figma Make Prototype, welcher die Interak
 
 ---
 
-## Screen 4 - Verfügbarkeitsprüfung
+## Screen 4 - Verfï¿½gbarkeitsprï¿½fung
 <img src="./PrototypeScreenshots\Desktop\Screenshot 2026-05-05 113758.png" width="800"/>
 <img src="./PrototypeScreenshots\Desktop\Screenshot 2026-05-05 113851.png" width="800"/>
 
@@ -125,20 +125,20 @@ Unter folgendem Link befindet sich der Figma Make Prototype, welcher die Interak
 
 ---
 
-## Screen 6 - Buchung überprüfen
+## Screen 6 - Buchung ï¿½berprï¿½fen
 <img src="./PrototypeScreenshots\Desktop\Screenshot 2026-05-05 114710.png" width="800"/>
 <img src="./PrototypeScreenshots\Desktop\Screenshot 2026-05-05 114802.png" width="800"/>
 
 ---
 
-## Screen 7 - Buchungsbestätigung/details
+## Screen 7 - Buchungsbestï¿½tigung/details
 <img src="./PrototypeScreenshots\Desktop\Screenshot 2026-05-05 114925.png" width="800"/>
 <img src="./PrototypeScreenshots\Desktop\Screenshot 2026-05-05 115006.png" width="800"/>
 <img src="./PrototypeScreenshots\Desktop\Screenshot 2026-05-05 115045.png" width="800"/>
 
 ---
 
-## Screen 8 - Über uns
+## Screen 8 - ï¿½ber uns
 <img src="./PrototypeScreenshots\Desktop\Screenshot 2026-05-05 115318.png" width="800"/>
 <img src="./PrototypeScreenshots\Desktop\Screenshot 2026-05-05 115357.png" width="800"/>
 
