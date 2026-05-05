@@ -382,4 +382,4 @@ Mit Figma Make wurde daraus ein erster klickbarer Prototyp für die Hotel-App er
 Der KI-generierte Figma-Make-Prompt wurde somit als Grundlage verwendet, um schnell einen ersten visuellen Entwurf und klickbaren Prototyp für die weitere Projektarbeit zu erhalten.
 
 ## WICHTIG!
-### Die Screenshots vom Figma-Prototyp befinden sich in Paperprototype.md
+### Die Screenshots vom Figma Make Prototyp und der Link zum klickbaren Figma Make Prototyp befinden sich in Paperprototype.md
