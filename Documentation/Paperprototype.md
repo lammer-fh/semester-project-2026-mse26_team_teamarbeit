@@ -6,7 +6,7 @@ Die Screens sind in der Reihenfolge dargestellt, in der sie durch Navigation (Bu
 # Ui Flow Diagramm:
 
 Unter folgendem Link befindet sich das UI Flow Diagramm, welches die Navigation zwischen den Screens darstellt:
-[Zur Datei](.\PrototypeScreenshots\UI-Flow\Paperprototype.drawio)
+[Zur Datei](https://drive.google.com/file/d/1_h1OEVd8J6jOq1qA_-8SztKyBOq3NSFJ/view?usp=sharing)
 
 
 # Mobile-Ansicht Screenshots (Figma Make):
