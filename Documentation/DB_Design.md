@@ -1,38 +1,45 @@
 ```mermaid
     erDiagram
         direction LR
-        USER ||--o{ BOOKING: ""
-        BOOKING }o--|| ROOM: ""
-        ROOM ||--o{ ROOM_IMAGE: "has"
-        ROOM }o--o{ ROOM_EXTRA: "offers"
-        USER {
+        GUESTS ||--o{ BOOKINGS: ""
+        BOOKINGS }o--|| ROOMS: ""
+        ROOMS }o--|| ROOM_TYPES: "is"
+        ROOM_TYPES ||--o{ ROOM_IMAGES: "has"
+        ROOM_TYPES }o--o{ ROOM_EXTRAS: "offers"
+        GUESTS {
             Id Guid PK
             Mail string "UNIQUE"
-            FirstName string
-            LastName string
+            Firstname string
+            Lastname string
         }
-        BOOKING {
-            Id Guid PK
-            UserId Guid FK
-            RoomId Guid FK
-            From Date
-            To Date
+        BOOKINGS {
+            Id Guid PK 
+            Guest_Id Guid FK
+            Room_Id Guid FK
+            Reference_Key String "UNIQUE | Readable Booking Id e.g. 'BHT463513'"
+            Arrival_Date Date
+            Departure_Date Date
             Breakfast boolean
             Status string "e.g. PENDING, CONFIRMED, CANCELLED"
-            TotalPrice double "Calculated"
+            Total_Price double "Calculated"
         }
-        ROOM {
+        ROOMS {
+            Id Guid PK
+            Room_Type_Id Guid FK
+            Room_Number String "e.g. '12A'"
+        }
+        ROOM_TYPES {
             Id Guid PK
             Name string
             Description string
-            PricePerNight double
+            Price_per_Night double
         }
-        ROOM_IMAGE {
+        ROOM_IMAGES {
             Id Guid PK
-            RoomId Guid FK
-            ImagePath string
+            Room_Id Guid FK
+            Image_Path string
         }
-        ROOM_EXTRA {
+        ROOM_EXTRAS {
             Name string PK
         }
 ```
