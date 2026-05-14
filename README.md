@@ -1,4 +1,24 @@
 # Advanced Webtechnologies (SS26)
+## Developer Notes
+### Dev Containers
+This Project is set up to use **Dev Containers** for a better experience between developers on Mac and Windows. The Frontend and Backend use separate Containers to each fit its environment natively.
+#### How to use?
+1. Make sure **Docker** is running on your machine.
+2. Make sure the extension **Dev Containers** (from Microsoft) is installed
+
+#### VS Code
+1. Open the folder "Frontend" or "Backend" explicitly
+2. On the bottom right a Pop-up should appear, that says "Reopen in Container". Click on that.
+   1. If the Pop-up does not show, use the shortcut `Ctrl + Shift + P` and select `Dev Containers: Reopen in Container`from the selection.
+3. Wait until Docker initiated the Container and installed all required tools
+4. Now you should be able to develop as if you would normally, but all is done inside the Linux-Container
+#### IntelliJ
+*since i am not using this, i will simply paste the response from copilot here*
+1. Starten Sie Ihre JetBrains-IDE und schließen Sie eventuell geöffnete Projekte, bis Sie den **Welcome Screen** (Willkommensbildschirm) sehen.
+2. Wählen Sie links im Menü **Remote Development** (Remote-Entwicklung) und dann **Dev Containers**.
+3. Klicken Sie auf **New Dev Container** (Neuer Dev-Container).
+4. Unter "**Dev Container from source**" (Dev-Container aus Quelle) wählen Sie den lokalen Pfad zu Ihrem Backend- oder Frontend-Ordner aus, in dem die `devcontainer.json` liegt.
+5. Die IDE baut nun den Container, richtet den integrierten JetBrains Client ein und verbindet sich.
 
 ## Project - Hotel Booking Interface
 ### Context and Background
