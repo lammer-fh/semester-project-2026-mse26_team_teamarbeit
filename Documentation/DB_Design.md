@@ -7,39 +7,40 @@
         ROOM_TYPES ||--o{ ROOM_IMAGES: "has"
         ROOM_TYPES }o--o{ ROOM_EXTRAS: "offers"
         GUESTS {
-            Id Guid PK
-            Mail string "UNIQUE"
-            Firstname string
-            Lastname string
+            id Guid PK
+            mail String "UNIQUE"
+            first_name String
+            last_name String
         }
         BOOKINGS {
-            Id Guid PK 
-            Guest_Id Guid FK
-            Room_Id Guid FK
-            Reference_Key String "UNIQUE | Readable Booking Id e.g. 'BHT463513'"
-            Arrival_Date Date
-            Departure_Date Date
-            Breakfast boolean
-            Status string "e.g. PENDING, CONFIRMED, CANCELLED"
-            Total_Price double "Calculated"
+            id Guid PK 
+            guest_id Guid FK
+            room_id Guid FK
+            reference_key String "UNIQUE | Readable Booking Id e.g. 'BHT463513'"
+            arrival_date Date
+            departure_date Date
+            breakfast Boolean
+            status String "e.g. PENDING, CONFIRMED, CANCELLED"
+            total_price Double "Calculated"
         }
         ROOMS {
-            Id Guid PK
-            Room_Type_Id Guid FK
-            Room_Number String "e.g. '12A'"
+            id Guid PK
+            room_type_id Guid FK
+            room_number String "UNIQUE | e.g. '12A'"
         }
         ROOM_TYPES {
-            Id Guid PK
-            Name string
-            Description string
-            Price_per_Night double
+            id Guid PK
+            name String
+            description String
+            price_per_night Double
+            cover_image_path String
         }
         ROOM_IMAGES {
-            Id Guid PK
-            Room_Id Guid FK
-            Image_Path string
+            id Guid PK
+            room_type_id Guid FK
+            image_path String
         }
         ROOM_EXTRAS {
-            Name string PK
+            name String PK
         }
 ```
