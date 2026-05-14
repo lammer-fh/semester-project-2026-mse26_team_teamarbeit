@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  database:
+    image: mysql:8.4
+    container_name: database
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: hotel_db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - hotel-network
+  
+  backend:
+    build: 
+      context: ./Backend
+      dockerfile: Containerfile
+    container_name: backend
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://database:3306/hotel_db?allowPublicKeyRetrieval=true&useSSL=false
+      SPRING_DATASOURCE_USERNAME: user
+      SPRING_DATASOURCE_PASSWORD: password
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    depends_on:
+      - database
+    networks:
+      - hotel-network
+
+  frontend:
+    build:
+      context: ./Frontend
+      dockerfile: Containerfile
+    container_name: frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - hotel-network
+
+networks:
+  hotel-network:
+    driver: bridge
+
+volumes:
+  db_data:
