@@ -1,7 +1,7 @@
 # Advanced Webtechnologies (SS26)
 ## Developer Notes
 ### Dev Containers
-This Project is set up to use **Dev Containers** for a better experience between developers on Mac and Windows. The Frontend and Backend use separate Containers to each fit its environment nativly.
+This Project is set up to use **Dev Containers** for a better experience between developers on Mac and Windows. The Frontend and Backend use separate Containers to each fit its environment natively.
 #### How to use?
 1. Make sure **Docker** is running on your machine.
 2. Make sure the extension **Dev Containers** (from Microsoft) is installed
