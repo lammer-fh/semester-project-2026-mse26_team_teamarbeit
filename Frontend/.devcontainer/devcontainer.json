@@ -1,0 +1,23 @@
+{
+  "name": "Frontend Dev Container",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:1-20-bookworm",
+  "remoteUser": "node",
+  "features": {},
+  "forwardPorts": [8100, 5173],
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "eslint.validate": ["javascript", "javascriptreact", "vue"]
+      },
+      "extensions": [
+        "Vue.official",
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "ionic.ionic"
+      ]
+    }
+  },
+  "postCreateCommand": "npm install -g @ionic/cli && npm install"
+}

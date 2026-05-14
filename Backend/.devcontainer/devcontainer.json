@@ -1,0 +1,24 @@
+{
+  "name": "Backend Dev Container",
+  "image": "mcr.microsoft.com/devcontainers/java:1-21-bookworm",
+  "remoteUser": "vscode",
+  "features": {
+    "ghcr.io/devcontainers/features/maven:1": {
+      "version": "3.9"
+    }
+  },
+  "forwardPorts": [8080],
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "java.format.settings.url": "eclipse-formatter.xml"
+      },
+      "extensions": [
+        "vscjava.vscode-java-pack",
+        "vmware.vscode-spring-boot",
+        "vscjava.vscode-spring-initializr",
+        "redhat.vscode-xml"
+      ]
+    }
+  }
+}
