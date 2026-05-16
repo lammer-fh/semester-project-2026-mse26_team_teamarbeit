@@ -1,0 +1,98 @@
+INSERT INTO ROOM_EXTRAS (name) VALUES 
+    ('WLAN'),
+    ('TV'),
+    ('Kitchen'),
+    ('Air Conditioning'),
+    ('Balcony'),
+    ('Sea View'),
+    ('Mountain View'),
+    ('King Size Bed'),
+    ('Queen Size Bed'),
+    ('Smoke Detector'),
+    ('Minibar'),
+    ('Safe'),
+    ('Hair Dryer'),
+    ('Iron'),
+    ('Washing Machine'),
+    ('Dryer'),
+    ('Coffee Maker'),
+    ('Shower'),
+    ('Bathtub');
+
+INSERT INTO ROOM_TYPES (id, name, description, price_per_night, cover_image_path) VALUES
+    (RANDOM_UUID(), 'Single Room', 'A room with a single bed, suitable for one person.', 50.00, 'images/single-room/cover-image.png'),
+    (RANDOM_UUID(), 'Double Room (King Size)', 'A room with a king size bed, suitable for two people.', 80.00, 'images/double-room-king/cover-image.png'),
+    (RANDOM_UUID(), 'Double Room (Queen Size)', 'A room with a queen size bed, suitable for two people.', 75.00, 'images/double-room-queen/cover-image.png'),
+    (RANDOM_UUID(), 'Double Room (Two Beds)', 'A room with two single beds, suitable for two people.', 80.00, 'images/double-room/cover-image.png'),
+    (RANDOM_UUID(), 'Suite', 'A luxurious room with a separate living area, suitable for two or more people.', 150.00, 'images/suite/cover-image.png');
+
+INSERT INTO ROOMS (id, room_number, room_type_id) VALUES
+    (RANDOM_UUID(), '101', (SELECT id FROM ROOM_TYPES WHERE name = 'Single Room')),
+    (RANDOM_UUID(), '102', (SELECT id FROM ROOM_TYPES WHERE name = 'Single Room')),
+    (RANDOM_UUID(), '103', (SELECT id FROM ROOM_TYPES WHERE name = 'Single Room')),
+    (RANDOM_UUID(), '201', (SELECT id FROM ROOM_TYPES WHERE name = 'Double Room (King Size)')),
+    (RANDOM_UUID(), '202', (SELECT id FROM ROOM_TYPES WHERE name = 'Double Room (King Size)')),
+    (RANDOM_UUID(), '203', (SELECT id FROM ROOM_TYPES WHERE name = 'Double Room (Queen Size)')),
+    (RANDOM_UUID(), '301', (SELECT id FROM ROOM_TYPES WHERE name = 'Double Room (Queen Size)')),
+    (RANDOM_UUID(), '302', (SELECT id FROM ROOM_TYPES WHERE name = 'Double Room (Two Beds)')),
+    (RANDOM_UUID(), '303', (SELECT id FROM ROOM_TYPES WHERE name = 'Double Room (Two Beds)')),
+    (RANDOM_UUID(), '401', (SELECT id FROM ROOM_TYPES WHERE name = 'Suite'));
+
+INSERT INTO ROOM_IMAGES (id, image_path, room_type_id) VALUES
+    (RANDOM_UUID(), 'images/single-room/cover-image.png', (SELECT id FROM ROOM_TYPES WHERE name = 'Single Room')),
+    (RANDOM_UUID(), 'images/double-room-king/cover-image.png', (SELECT id FROM ROOM_TYPES WHERE name = 'Double Room (King Size)')),
+    (RANDOM_UUID(), 'images/double-room-queen/cover-image.png', (SELECT id FROM ROOM_TYPES WHERE name = 'Double Room (Queen Size)')),
+    (RANDOM_UUID(), 'images/double-room/cover-image.png', (SELECT id FROM ROOM_TYPES WHERE name = 'Double Room (Two Beds)')),
+    (RANDOM_UUID(), 'images/suite/cover-image.png', (SELECT id FROM ROOM_TYPES WHERE name = 'Suite'));
+
+INSERT INTO ROOM_TYPES_ROOM_EXTRAS (room_types_id, room_extras_name) VALUES
+    ((SELECT id FROM ROOM_TYPES WHERE name = 'Single Room'), 'WLAN'),
+    ((SELECT id FROM ROOM_TYPES WHERE name = 'Single Room'), 'TV'),
+    ((SELECT id FROM ROOM_TYPES WHERE name = 'Single Room'), 'Shower'),
+    ((SELECT id FROM ROOM_TYPES WHERE name = 'Single Room'), 'Air Conditioning'),
+    ((SELECT id FROM ROOM_TYPES WHERE name = 'Single Room'), 'Mountain View'),
+    ((SELECT id FROM ROOM_TYPES WHERE name = 'Single Room'), 'Smoke Detector'),
+    
+    ((SELECT id FROM ROOM_TYPES WHERE name = 'Double Room (King Size)'), 'WLAN'),
+    ((SELECT id FROM ROOM_TYPES WHERE name = 'Double Room (King Size)'), 'TV'),
+    ((SELECT id FROM ROOM_TYPES WHERE name = 'Double Room (King Size)'), 'King Size Bed'),
+    ((SELECT id FROM ROOM_TYPES WHERE name = 'Double Room (King Size)'), 'Shower'),
+    ((SELECT id FROM ROOM_TYPES WHERE name = 'Double Room (King Size)'), 'Air Conditioning'),
+    ((SELECT id FROM ROOM_TYPES WHERE name = 'Double Room (King Size)'), 'Mountain View'),
+    ((SELECT id FROM ROOM_TYPES WHERE name = 'Double Room (King Size)'), 'Smoke Detector'),
+    ((SELECT id FROM ROOM_TYPES WHERE name = 'Double Room (King Size)'), 'Coffee Maker'),
+    
+    ((SELECT id FROM ROOM_TYPES WHERE name = 'Double Room (Queen Size)'), 'WLAN'),
+    ((SELECT id FROM ROOM_TYPES WHERE name = 'Double Room (Queen Size)'), 'TV'),
+    ((SELECT id FROM ROOM_TYPES WHERE name = 'Double Room (Queen Size)'), 'Queen Size Bed'),
+    ((SELECT id FROM ROOM_TYPES WHERE name = 'Double Room (Queen Size)'), 'Shower'),
+    ((SELECT id FROM ROOM_TYPES WHERE name = 'Double Room (Queen Size)'), 'Air Conditioning'),
+    ((SELECT id FROM ROOM_TYPES WHERE name = 'Double Room (Queen Size)'), 'Mountain View'),
+    ((SELECT id FROM ROOM_TYPES WHERE name = 'Double Room (Queen Size)'), 'Smoke Detector'),
+    ((SELECT id FROM ROOM_TYPES WHERE name = 'Double Room (Queen Size)'), 'Coffee Maker'),
+    
+    ((SELECT id FROM ROOM_TYPES WHERE name = 'Double Room (Two Beds)'), 'WLAN'),
+    ((SELECT id FROM ROOM_TYPES WHERE name = 'Double Room (Two Beds)'), 'TV'),
+    ((SELECT id FROM ROOM_TYPES WHERE name = 'Double Room (Two Beds)'), 'Shower'),
+    ((SELECT id FROM ROOM_TYPES WHERE name = 'Double Room (Two Beds)'), 'Air Conditioning'),
+    ((SELECT id FROM ROOM_TYPES WHERE name = 'Double Room (Two Beds)'), 'Sea View'),
+    ((SELECT id FROM ROOM_TYPES WHERE name = 'Double Room (Two Beds)'), 'Smoke Detector'),
+
+    ((SELECT id FROM ROOM_TYPES WHERE name = 'Suite'), 'WLAN'),
+    ((SELECT id FROM ROOM_TYPES WHERE name = 'Suite'), 'TV'),
+    ((SELECT id FROM ROOM_TYPES WHERE name = 'Suite'), 'Kitchen'),
+    ((SELECT id FROM ROOM_TYPES WHERE name = 'Suite'), 'Air Conditioning'),
+    ((SELECT id FROM ROOM_TYPES WHERE name = 'Suite'), 'Balcony'),
+    ((SELECT id FROM ROOM_TYPES WHERE name = 'Suite'), 'Sea View'),
+    ((SELECT id FROM ROOM_TYPES WHERE name = 'Suite'), 'King Size Bed'),
+    ((SELECT id FROM ROOM_TYPES WHERE name = 'Suite'), 'Queen Size Bed'),
+    ((SELECT id FROM ROOM_TYPES WHERE name = 'Suite'), 'Smoke Detector'),
+    ((SELECT id FROM ROOM_TYPES WHERE name = 'Suite'), 'Minibar'),
+    ((SELECT id FROM ROOM_TYPES WHERE name = 'Suite'), 'Safe'),
+    ((SELECT id FROM ROOM_TYPES WHERE name = 'Suite'), 'Hair Dryer'),
+    ((SELECT id FROM ROOM_TYPES WHERE name = 'Suite'), 'Iron'),
+    ((SELECT id FROM ROOM_TYPES WHERE name = 'Suite'), 'Washing Machine'),
+    ((SELECT id FROM ROOM_TYPES WHERE name = 'Suite'), 'Dryer'),
+    ((SELECT id FROM ROOM_TYPES WHERE name = 'Suite'), 'Coffee Maker'),
+    ((SELECT id FROM ROOM_TYPES WHERE name = 'Suite'), 'Shower'),
+    ((SELECT id FROM ROOM_TYPES WHERE name = 'Suite'), 'Bathtub');
