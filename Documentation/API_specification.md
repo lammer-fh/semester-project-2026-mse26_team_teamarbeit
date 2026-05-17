@@ -127,7 +127,7 @@ Fetches all bookings for a given room id.
     "bookings": [
         {
             "id": Guid,
-            "userId": Guid,
+            "guestId": Guid,
             "roomId": Guid,
             "from": DateTime,
             "to": DateTime,
@@ -157,7 +157,7 @@ Fetches all bookings for a given room id.
 - **URL**: `/bookings
 - **Method**: POST
 #### Description
-Creates a booking for a user and a room for a selected time range. DateTime is expected in the following format: 'YYYY-MM-DD'. Either a userId or guest element has to be transmitted with the body. If a guest element is provided, either the user with the given email is returned or a new user is created from it.
+Creates a booking for a guest and a room for a selected time range. DateTime is expected in the following format: 'YYYY-MM-DD'. Either a guestId or guest element has to be transmitted with the body. If a guest element is provided, either the guest with the given email is returned or a new guest is created from it.
 #### Body
 ```
 {
@@ -165,7 +165,7 @@ Creates a booking for a user and a room for a selected time range. DateTime is e
 	"from": DateTime,
 	"to": DateTime,
 	"breakfast": boolean,
-    "userId": Guid | null,
+    "guestId": Guid | null,
     "guest": {
         "firstName": string,
         "lastName": string,
@@ -177,14 +177,14 @@ Creates a booking for a user and a room for a selected time range. DateTime is e
 | Code                        | Description                                                                                                        | Content               |
 | :-------------------------- | :----------------------------------------------------------------------------------------------------------------- | :-------------------- |
 | `201 Created`               | Success                                                                                                            | [Booking](#booking) |
-| `400 Bad Request`           | The sent request body was malformed. This includes illegal roomId, if "to" is set before "from", or any of them lies in the past. Also if neither a "guest" nor a "userId" is given.| [Error](#errordto)     |
+| `400 Bad Request`           | The sent request body was malformed. This includes illegal roomId, if "to" is set before "from", or any of them lies in the past. Also if neither a "guest" nor a "guestId" is given.| [Error](#errordto)     |
 | `409 Conflict`              | The requested room is no longer available for the selected time range. Maybe the process of booking took too long. | [Error](#errordto)     |
 | `500 Internal Server Error` | Something went wrong, please contact our service-desk                                                              | [Error](#errordto)     |
 ##### Success
 ```
 {
 	"id": Guid,
-	"userId": Guid,
+	"guestId": Guid,
 	"roomId": Guid,
 	"from": DateTime,
 	"to": DateTime,
@@ -203,7 +203,7 @@ Creates a booking for a user and a room for a selected time range. DateTime is e
 - **URL**: `/bookings/:id
 - **Method**: PUT
 #### Description
-Updates a booking. Idempotent. DateTime is expected in the following format: 'YYYY-MM-DD'.  Either a userId or guest element has to be transmitted with the body. If a guest element is provided, either the user with the given email is returned or a new user is created from it.
+Updates a booking. Idempotent. DateTime is expected in the following format: 'YYYY-MM-DD'.  Either a guestId or guest element has to be transmitted with the body. If a guest element is provided, either the guest with the given email is returned or a new guest is created from it.
 #### Body
 ```
 {
@@ -211,7 +211,7 @@ Updates a booking. Idempotent. DateTime is expected in the following format: 'YY
 	"from": DateTime,
 	"to": DateTime,
 	"breakfast": boolean,
-    "userId": Guid | null,
+    "guestId": Guid | null,
     "guest": {
         "firstName": string,
         "lastName": string,
@@ -223,7 +223,7 @@ Updates a booking. Idempotent. DateTime is expected in the following format: 'YY
 | Code                        | Description                                                                                                  | Content               |
 | :-------------------------- | :----------------------------------------------------------------------------------------------------------- | :-------------------- |
 | `200 OK`                    | Success                                                                                                      | [Booking](#booking) |
-| `400 Bad Request`           | The sent request body was malformed. This includes illegal roomId, if "to" is set before "from", or any of them lies in the past. Also if neither a "guest" nor a "userId" is given. | [Error](#errordto)     |
+| `400 Bad Request`           | The sent request body was malformed. This includes illegal roomId, if "to" is set before "from", or any of them lies in the past. Also if neither a "guest" nor a "guestId" is given. | [Error](#errordto)     |
 | `404 Not Found`             | The requested booking id does not exist                                                                      | [Error](#errordto)     |
 | `409 Conflict`              | The requested room is not available for the selected time range. Maybe the process of booking took too long. | [Error](#errordto)     |
 | `500 Internal Server Error` | Something went wrong, please contact our service-desk                                                        | [Error](#errordto)     |
@@ -231,7 +231,7 @@ Updates a booking. Idempotent. DateTime is expected in the following format: 'YY
 ```
 {
 	"id": Guid,
-	"userId": Guid,
+	"guestId": Guid,
 	"roomId": Guid,
 	"from": DateTime,
 	"to": DateTime,
@@ -286,7 +286,7 @@ Fetches a list of all bookings.
     "bookings": [
         {
             "id": Guid,
-            "userId": Guid,
+            "guestId": Guid,
             "roomId": Guid,
             "from": DateTime,
             "to": DateTime,
@@ -311,16 +311,16 @@ Fetches a list of all bookings.
 }
 ```
 
-## Users
-### Create User
-- **URL**: `/users
+## Guests
+### Create Guest
+- **URL**: `/guests`
 - **Method**: POST
 #### Description
-Creates a new user.
+Creates a new guest.
 #### Body
 ```
 {
-	"userMail": string,
+	"email": string,
 	"firstName": string,
 	"lastName": string
 }
@@ -328,14 +328,14 @@ Creates a new user.
 #### Responses
 | Code                        | Description                                                                                                  | Content            |
 | :-------------------------- | :----------------------------------------------------------------------------------------------------------- | :----------------- |
-| `201 Created`               | Success                                                                                                      | [User](#user) |
-| `400 Bad Request`           | The sent request body was malformed or mail is already registered. Also if mail is not a valid mail address. | [Error](#errordto)  |
+| `201 Created`               | Success                                                                                                      | [Guest](#guest) |
+| `400 Bad Request`           | The sent request body was malformed or email is already registered. Also if email is not a valid email address. | [Error](#errordto)  |
 | `500 Internal Server Error` | Something went wrong, please contact our service-desk                                                        | [Error](#errordto)  |
 ##### Success
 ```
 {
 	"id": Guid,
-	"userMail": string,
+	"email": string,
 	"firstName": string,
 	"lastName": string
 }
@@ -346,11 +346,11 @@ Creates a new user.
 	"errorMessage": string
 }
 ```
-### Get users
-- **URL**: `/users
+### Get Guests
+- **URL**: `/guests`
 - **Method**: GET
 #### Description
-Fetches a list of all users.
+Fetches a list of all guests.
 #### Parameters
 
 | Name     | Type     | Description                                                                           | Example               |
@@ -361,15 +361,15 @@ Fetches a list of all users.
 #### Responses
 | Code                        | Description                                                        | Content                     |
 | :-------------------------- | :----------------------------------------------------------------- | :-------------------------- |
-| `200 OK`                    | Success                                                            | [List of Users](#list-of-users) |
+| `200 OK`                    | Success                                                            | [List of Guests](#list-of-guests) |
 | `500 Internal Server Error` | Something went wrong, please contact our service-desk              | [Error](#errordto)          |
 ##### Success
 ```
 {
-    "users": [
+    "guests": [
         {
             "id": Guid,
-            "userMail": string,
+            "email": string,
             "firstName": string,
             "lastName": string
         },
@@ -389,22 +389,22 @@ Fetches a list of all users.
 	"errorMessage": string
 }
 ```
-### Get user details
-- **URL**: `/users/:id
+### Get Guest Details
+- **URL**: `/guests/:id`
 - **Method**: GET
 #### Description
-Fetches a specific user by his id.
+Fetches a specific guest by id.
 #### Responses
 | Code                        | Description                                           | Content                     |
 | :-------------------------- | :---------------------------------------------------- | :-------------------------- |
-| `200 OK`                    | Success                                               | [User](#user) |
-| `404 Not Found`             | No user with the given id found                       | [Error](#errordto)          |
+| `200 OK`                    | Success                                               | [Guest](#guest) |
+| `404 Not Found`             | No guest with the given id found                      | [Error](#errordto)          |
 | `500 Internal Server Error` | Something went wrong, please contact our service-desk | [Error](#errordto)          |
 ##### Success
 ```
 {
     "id": Guid,
-    "userMail": string,
+    "email": string,
     "firstName": string,
     "lastName": string
 }
@@ -415,15 +415,15 @@ Fetches a specific user by his id.
 	"errorMessage": string
 }
 ```
-### Update User
-- **URL**: `/users/:id
+### Update Guest
+- **URL**: `/guests/:id`
 - **Method**: PUT
 #### Description
-Updates a user. Idempotent.
+Updates a guest. Idempotent.
 #### Body
 ```
 {
-	"userMail": string,
+	"email": string,
 	"firstName": string,
 	"lastName": string
 }
@@ -431,15 +431,15 @@ Updates a user. Idempotent.
 #### Responses
 | Code                        | Description                                           | Content             |
 | :-------------------------- | :---------------------------------------------------- | :------------------ |
-| `200 OK`                    | Success                                               | [User](#user) |
-| `400 Bad Request`           | The sent request body was malformed or mail is already registered. Also if mail is not a valid mail address. | [Error](#errordto)  |
-| `404 Not Found`             | The requested user id does not exist                  | [Error](#errordto)  |
+| `200 OK`                    | Success                                               | [Guest](#guest) |
+| `400 Bad Request`           | The sent request body was malformed or email is already registered. Also if email is not a valid email address. | [Error](#errordto)  |
+| `404 Not Found`             | The requested guest id does not exist                 | [Error](#errordto)  |
 | `500 Internal Server Error` | Something went wrong, please contact our service-desk | [Error](#errordto)  |
 ##### Success
 ```
 {
 	"id": Guid,
-	"userMail": string,
+	"email": string,
 	"firstName": string,
 	"lastName": string
 }
@@ -450,16 +450,16 @@ Updates a user. Idempotent.
 	"errorMessage": string
 }
 ```
-### Delete User
-- **URL**: `/users/:id
+### Delete Guest
+- **URL**: `/guests/:id`
 - **Method**: DELETE
 #### Description
-Deletes a user and all of his bookings cascading.
+Deletes a guest and all of their bookings cascading.
 #### Responses
 | Code                        | Description                                           | Content            |
 | :-------------------------- | :---------------------------------------------------- | :----------------- |
 | `204 No Content`            | Success                                               |                    |
-| `404 Not Found`             | The requested user id does not exist                  | [Error](#errordto) |
+| `404 Not Found`             | The requested guest id does not exist                 | [Error](#errordto) |
 | `500 Internal Server Error` | Something went wrong, please contact our service-desk | [Error](#errordto) |
 ##### Error
 ```
@@ -467,11 +467,11 @@ Deletes a user and all of his bookings cascading.
 	"errorMessage": string
 }
 ```
-### Get User Bookings
-- **URL**: `/users/:id/bookings`
+### Get Guest Bookings
+- **URL**: `/guests/:id/bookings`
 - **Method**: GET
 #### Description
-Fetches all bookings for a given user id.
+Fetches all bookings for a given guest id.
 #### Parameters
 
 | Name     | Type     | Description                                                                           | Example               |
@@ -483,7 +483,7 @@ Fetches all bookings for a given user id.
 | Code                        | Description                                           | Content                        |
 | :-------------------------- | :---------------------------------------------------- | :----------------------------- |
 | `200 OK`                    | Success                                               | [List of Bookings](#list-of-bookings) |
-| `404 Not Found`             | The requested room id does not exist                  | [Error](#errordto)              |
+| `404 Not Found`             | The requested guest id does not exist                 | [Error](#errordto)              |
 | `500 Internal Server Error` | Something went wrong, please contact our service-desk | [Error](#errordto)              |
 ##### Success
 ```
@@ -491,7 +491,7 @@ Fetches all bookings for a given user id.
     "bookings": [
         {
             "id": Guid,
-            "userId": Guid,
+            "guestId": Guid,
             "roomId": Guid,
             "from": DateTime,
             "to": DateTime,
@@ -560,7 +560,7 @@ Fetches all bookings for a given user id.
 ```
 {
 	"id": Guid,
-	"userId": Guid,
+	"guestId": Guid,
 	"roomId": Guid,
 	"from": DateTime,
 	"to": DateTime,
@@ -575,7 +575,7 @@ Fetches all bookings for a given user id.
     "bookings": [
         {
             "id": Guid,
-            "userId": Guid,
+            "guestId": Guid,
             "roomId": Guid,
             "from": DateTime,
             "to": DateTime,
@@ -593,23 +593,23 @@ Fetches all bookings for a given user id.
     }
 }
 ```
-### User
+### Guest
 ```
 {
 	"id": Guid,
-	"userMail": string,
+	"email": string,
 	"firstName": string,
 	"lastName": string
 }
 ```
-### List of Users
+### List of Guests
 
 ```
 {
-    "users": [
+    "guests": [
         {
             "id": Guid,
-            "userMail": string,
+            "email": string,
             "firstName": string,
             "lastName": string
         },
