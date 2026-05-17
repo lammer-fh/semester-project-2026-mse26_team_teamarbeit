@@ -1,5 +1,7 @@
 package team_teamarbeit.backend.entity;
 
+import java.math.BigDecimal;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 import jakarta.persistence.CascadeType;
@@ -35,17 +37,20 @@ public class RoomType {
     private String description;
 
     @Column(name = "price_per_night")
-    private double pricePerNight;
+    private BigDecimal pricePerNight;
 
     @Column(name = "cover_image_path")
     private String coverImagePath;
 
     @ManyToMany
-    private Set<RoomExtra> roomExtras;
+    @Builder.Default
+    private Set<RoomExtra> roomExtras = new HashSet<>();
 
     @OneToMany(mappedBy = "roomType", cascade = CascadeType.ALL)
-    private Set<RoomImage> roomImages;
+    @Builder.Default
+    private Set<RoomImage> roomImages = new HashSet<>();
 
     @OneToMany(mappedBy = "roomType", cascade = CascadeType.ALL)
-    private Set<Room> rooms;
+    @Builder.Default
+    private Set<Room> rooms = new HashSet<>();
 }

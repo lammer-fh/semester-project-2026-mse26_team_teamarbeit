@@ -1,5 +1,6 @@
 package team_teamarbeit.backend.entity;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 import jakarta.persistence.Column;
@@ -36,5 +37,6 @@ public class Room {
     private RoomType roomType;
 
     @OneToMany(mappedBy = "room")
-    private Set<Booking> bookings;
+    @Builder.Default
+    private Set<Booking> bookings = new HashSet<>();
 }

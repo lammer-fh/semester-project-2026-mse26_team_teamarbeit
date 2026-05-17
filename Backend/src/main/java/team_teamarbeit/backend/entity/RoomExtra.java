@@ -1,5 +1,6 @@
 package team_teamarbeit.backend.entity;
 
+import java.util.HashSet;
 import java.util.Set;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -23,5 +24,6 @@ public class RoomExtra {
     private String name;
 
     @ManyToMany(mappedBy = "roomExtras")
-    private Set<RoomType> roomTypes;
+    @Builder.Default
+    private Set<RoomType> roomTypes = new HashSet<>();
 }
