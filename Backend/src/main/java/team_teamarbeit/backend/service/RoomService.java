@@ -13,7 +13,7 @@ import team_teamarbeit.backend.repository.RoomTypeRepository;
 
 @Service
 public class RoomService {
-    private RoomTypeRepository roomTypeRepo;
+    private final RoomTypeRepository roomTypeRepo;
 
     public RoomService(RoomTypeRepository roomTypeRepository) {
         super();

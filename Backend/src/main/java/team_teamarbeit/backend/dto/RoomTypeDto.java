@@ -9,12 +9,12 @@ import team_teamarbeit.backend.entity.RoomType;
 @Data
 @Builder
 public class RoomTypeDto {
-    UUID id;
-    String name;
-    String description;
-    Double pricePerNight;
-    List<String> imagePaths;
-    List<RoomExtraDto> roomExtras;
+    private UUID id;
+    private String name;
+    private String description;
+    private Double pricePerNight;
+    private List<String> imagePaths;
+    private List<RoomExtraDto> roomExtras;
 
     public static RoomTypeDto fromRoomType(RoomType roomType) {
         return RoomTypeDto.builder()
