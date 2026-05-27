@@ -23,6 +23,9 @@ public class RoomExtra {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "icon")
+    private String icon;
+
     @ManyToMany(mappedBy = "roomExtras")
     @Builder.Default
     private Set<RoomType> roomTypes = new HashSet<>();
