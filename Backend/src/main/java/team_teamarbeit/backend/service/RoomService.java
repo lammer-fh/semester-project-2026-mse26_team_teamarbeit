@@ -1,28 +1,41 @@
 package team_teamarbeit.backend.service;
 
 import java.util.List;
+import java.util.UUID;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import team_teamarbeit.backend.dto.RoomReadDto;
-import team_teamarbeit.backend.repository.RoomRepository;
+import team_teamarbeit.backend.dto.PagedResponseDto;
+import team_teamarbeit.backend.dto.RoomTypeDto;
+import team_teamarbeit.backend.entity.RoomType;
+import team_teamarbeit.backend.exceptions.ResourceNotFoundException;
+import team_teamarbeit.backend.repository.RoomTypeRepository;
 
 @Service
 public class RoomService {
-    private RoomRepository roomRepository;
+    private final RoomTypeRepository roomTypeRepo;
 
-    public RoomService(RoomRepository roomRepository) {
+    public RoomService(RoomTypeRepository roomTypeRepository) {
         super();
-        this.roomRepository = roomRepository;
+        this.roomTypeRepo = roomTypeRepository;
     }
 
-    public List<RoomReadDto> getAllRooms() {
-        return roomRepository.findAll().stream()
-            .map(room -> RoomReadDto.builder()
-                .roomNumber(room.getRoomNumber())
-                .roomTypeName(room.getRoomType().getName())
-                .roomTypeDescription(room.getRoomType().getDescription())
-                .pricePerNight(room.getRoomType().getPricePerNight().doubleValue())
-                .roomExtras(room.getRoomType().getRoomExtras().stream().map(extra -> extra.getName()).toList())
-                .build()
-            ).toList();
+    public PagedResponseDto<RoomTypeDto> getRooms(String filter, Pageable pageable) {
+        Page<RoomType> roomTypePage = roomTypeRepo.findByNameContainingIgnoreCase(filter, pageable);
+        List<RoomTypeDto> roomTypeDtos = roomTypePage.getContent().stream().map(RoomTypeDto::fromRoomType).toList();
+
+        return PagedResponseDto.<RoomTypeDto>builder()
+            .items(roomTypeDtos)
+            .pageNumber(roomTypePage.getNumber())
+            .pageSize(roomTypePage.getSize())
+            .totalItems(roomTypePage.getTotalElements())
+            .totalPages(roomTypePage.getTotalPages())
+            .isLast(roomTypePage.isLast())
+            .build();
+    }
+
+    public RoomTypeDto getRoomDetails(UUID roomTypeId) {
+        RoomType roomType = roomTypeRepo.findById(roomTypeId).orElseThrow(() -> new ResourceNotFoundException("Room type not found"));
+        return RoomTypeDto.fromRoomType(roomType);
     }
 }
