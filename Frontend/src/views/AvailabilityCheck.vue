@@ -121,7 +121,8 @@
             <availability-result
               v-if="roomStore.isAvailable && lastCheckedPeriod"
               :available="roomStore.isAvailable"
-              :period="lastCheckedPeriod"/>
+              :period="lastCheckedPeriod"
+              @book="goToBooking"/>
           </form>
         </section>
       </main>
@@ -310,6 +311,10 @@ export default defineComponent({
   },
 
   methods: {
+    goToBooking() {
+      this.$router.push(`/rooms/${this.roomId}/book`)
+    },
+
     setPeriodMode(mode: PeriodInputMode): void {
       this.periodMode = mode
       this.validationErrors = {}
@@ -542,20 +547,15 @@ ion-input {
 }
 
 ion-button[type='submit'] {
-  --background: #2d5b47;
-  --background-hover: #244a3a;
-  --border-radius: 6px;
+  --background: #d97706;
+  --background-hover: #b45309;
+  --background-activated: #92400e;
+  --border-radius: 8px;
   --box-shadow: none;
-  min-height: 50px;
-  font-weight: 800;
-}
-
-.availability-result {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 14px;
-  padding: 16px;
-  border-radius: 8px;
+  --padding-start: 24px;
+  --padding-end: 24px;
+  height: 44px;
+  font-weight: 600;
 }
 
 .availability-result ion-icon {
@@ -571,17 +571,6 @@ ion-button[type='submit'] {
   margin: 0;
 }
 
-.availability-result.available {
-  border: 1px solid #b9dec9;
-  background: #eef9f2;
-  color: #28603b;
-}
-
-.availability-result.unavailable {
-  border: 1px solid #efc0b7;
-  background: #fff1ee;
-  color: #943525;
-}
 
 @media (max-width: 820px) {
   .period-fields {
