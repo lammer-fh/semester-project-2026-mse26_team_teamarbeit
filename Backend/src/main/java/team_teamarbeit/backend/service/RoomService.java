@@ -22,16 +22,7 @@ public class RoomService {
 
     public PagedResponseDto<RoomTypeDto> getRooms(String filter, Pageable pageable) {
         Page<RoomType> roomTypePage = roomTypeRepo.findByNameContainingIgnoreCase(filter, pageable);
-        List<RoomTypeDto> roomTypeDtos = roomTypePage.getContent().stream().map(RoomTypeDto::fromRoomType).toList();
-
-        return PagedResponseDto.<RoomTypeDto>builder()
-            .items(roomTypeDtos)
-            .pageNumber(roomTypePage.getNumber())
-            .pageSize(roomTypePage.getSize())
-            .totalItems(roomTypePage.getTotalElements())
-            .totalPages(roomTypePage.getTotalPages())
-            .isLast(roomTypePage.isLast())
-            .build();
+        return PagedResponseDto.fromPage(roomTypePage, RoomTypeDto::fromRoomType);
     }
 
     public RoomTypeDto getRoomDetails(UUID roomTypeId) {
