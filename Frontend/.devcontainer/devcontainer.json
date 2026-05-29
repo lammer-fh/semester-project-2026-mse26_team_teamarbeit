@@ -1,5 +1,7 @@
 {
   "name": "Frontend Dev Container",
+  "workspaceMount": "source=${localWorkspaceFolder}/..,target=/workspace,type=bind,consistency=cached",
+  "workspaceFolder": "/workspace/Frontend",
   "image": "mcr.microsoft.com/devcontainers/javascript-node:1-22-bookworm",
   "remoteUser": "node",
   "features": {},

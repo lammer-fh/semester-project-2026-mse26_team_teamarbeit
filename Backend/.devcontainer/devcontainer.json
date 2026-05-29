@@ -1,5 +1,7 @@
 {
   "name": "Backend Dev Container",
+  "workspaceMount": "source=${localWorkspaceFolder}/..,target=/workspace,type=bind,consistency=cached",
+  "workspaceFolder": "/workspace/Backend",
   "image": "mcr.microsoft.com/devcontainers/java:1-21-bookworm",
   "remoteUser": "vscode",
   "forwardPorts": [8080],
