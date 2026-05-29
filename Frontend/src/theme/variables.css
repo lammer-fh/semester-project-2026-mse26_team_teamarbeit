@@ -1,2 +1,53 @@
 /* For information on how to create your own theme, please refer to:
 http://ionicframework.com/docs/theming/ */
+
+:root {
+  --ion-background-color: #ffffff;
+  --ion-text-color: #1c1917;
+  --ion-toolbar-background: #ffffff;
+  --ion-toolbar-color: #1c1917;
+  --ion-item-background: #ffffff;
+  --ion-card-background: #ffffff;
+}
+
+/* Disable dark mode completely */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ion-background-color: #ffffff;
+    --ion-text-color: #1c1917;
+    --ion-toolbar-background: #ffffff;
+    --ion-toolbar-color: #1c1917;
+    --ion-item-background: #ffffff;
+    --ion-card-background: #ffffff;
+  }
+
+  .orange-button{
+    --background: #D97706;
+    --color: #ffffff;
+    --border-radius: 0.5rem;
+  }
+
+  .orange-button-outlined{
+    --background: transparent;
+    --border-color: #D97706;
+    --border-width: 0.125rem;
+    --color: #D97706;
+    --border-radius: 0.5rem;
+  }
+
+  .dark-gray-button{
+    --background: #222428;
+    --color: #ffffff;
+    --border-radius: 0.5rem;
+  }
+
+  .burgerMenu{
+    --ion-background-color: #ffffff;
+    --ion-text-color: #1c1917;
+  }
+
+  body {
+    --ion-background-color: #ffffff;
+    --ion-text-color: #1c1917;
+  }
+}
