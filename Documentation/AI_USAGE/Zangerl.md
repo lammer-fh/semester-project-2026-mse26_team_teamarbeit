@@ -77,3 +77,11 @@ Analyse: Buchungsdaten haben oft eine rechtliche und buchhalterische Relevanz. E
 Lösungsvorschlag: Füge der Tabelle BOOKING einen Status hinzu, z.B. Status string (Values: z.B. "CONFIRMED", "CANCELLED"). So kannst du beim "Stornieren" einfach den Status updaten, anstatt den Datensatz endgültig aus MySQL zu löschen (sog. Soft-Delete).
 ### Next Steps
 Ich habe dementsprechend die Punkte (2), (3) und (4) übernommen und das Schema angepasst. Punkt (1) habe ich absichtlich nicht übernommen, da durch die zusätzliche Tabelle meiner Meinung nach kein Mehrwert geschaffen wird.
+## 3. Backend Implementation
+### KI Specs
+- Github Copilot 
+- Gemini 3.1 Pro
+### Beschreibung
+Ich habe hierfür mehrfach nachgefragt wie gewisse Operationen aus C# in Java programmiert werden (z.B. wie LINQ Statements implementiert werden könnten oder was das Equivalent zu PagedList ist) bzw. generell habe ich quasi Google-Recherche direkt in Copilot durchgeführt um auch zu verstehen wie Spring Boot Repositories erweitert werden können.
+
+Implementiert habe ich die Features dann jedoch manuell und nicht generieren lassen.
