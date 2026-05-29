@@ -383,3 +383,71 @@ Der KI-generierte Figma-Make-Prompt wurde somit als Grundlage verwendet, um schn
 
 ## WICHTIG!
 ### Die Screenshots vom Figma Make Prototyp und der Link zum klickbaren Figma Make Prototyp befinden sich in Paperprototype.md
+
+
+# Frontend-Entwicklung:
+
+## AI Usage Dokumentation Sitzung: 2026-05-28
+
+**Tool:** GitHub Copilot (Chat-Agent in JetBrains IDE)
+
+
+### 1. About-Page: React → Vue/Ionic Portierung
+
+| |                                                                                                                                                                                                                                                |
+|---|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Prompt/Aufgabe** | "Baue diese About Us Page (React) nach in Vue mit Ionic, achte auf einen Mobile First Ansatz." – React-Komponente mit Lucide-Icons, Values-Grid und Kontakt-CTA als Vorlage übergeben                                                          |
+| **AI-Output** | `About.vue` mit Ionic-Komponenten, Ionicons statt Lucide, scoped CSS mit Mobile-First-Ansatz                                                                                                                                          |
+| **Akzeptiert** | ✅ Mit Modifikationen – Grundstruktur übernommen                                                                                                                                                                                                |
+| **Modifikationen** | Mehrfach angepasst: Dark-Mode-Hintergrund gefixt (schwarz → weiß), Padding für Navbar-Overlap hinzugefügt, Navbar-Farbe von blau auf weiß geändert, Navabr-Größe angepasst. Navbar-Anordnung angepasst.                                        |
+| **Begründung** | Mit Modifikationen übernommen weil es am Anfang probleme mit der Hintergrundfarbe gab, welche Standardmäßig schwarz ist in Ionic, Navbar hat content überdeckt, hatte die falsche Farbe und Größe und eine seltsame Anordnung der Nav-Elemente |
+
+
+### 2. Atomic Design Komponentenstruktur
+
+| |                                                                                                                                           |
+|---|-------------------------------------------------------------------------------------------------------------------------------------------|
+| **Prompt/Aufgabe** | "Organisiere ab jetzt die einzelnen Components in einem Components-Ordner mit Unterordnern für atoms, molecules, organisms und templates" |
+| **AI-Output** | Refactoring der bestehenden Views in wiederverwendbare Komponenten:                                                                       |
+| | **Atoms:** `AppIcon.vue`, `SectionHeader.vue`                                                                                             |
+| | **Molecules:** `ContactCard.vue`,`ValueCard.vue`                                                                                          |
+| | **Organisms:** Keine                                                                                                                      |
+| | **Templates:** `PaddedPageTemplate.vue`                                                                                                   |
+| **Akzeptiert** | ✅ Vollständig                                                                                                                             |
+| **Begründung** | Sehr gute aufteilung der                                                                                                                  |
+
+### 3. HomePage: React → Vue/Ionic Portierung
+
+| |                                                                                                                                                                                                                                                                                                                                                                                      |
+|---|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Prompt/Aufgabe** | "Baue diese Homepage nach in Vue mit Ionic, achte auf einen Mobile First Ansatz." – React Landing Page mit Hero, Features, About-Sektion und <br> CTA übergeben."                                                                                                                                                                                                                    |
+| **AI-Output** | `HomePage.vue` mit Hero-Sektion (Fullscreen-Bild + Gradient-Overlay), Features-Grid, About-Bereich und CTA. <br>`FeatureCard.vue`, `FeatureSection.vue`,  `HeroSection.vue`,  `CtaSection.vue`, `PageTemplate`                                                                                                                                                                       |
+| **Akzeptiert** | ✅ Mit Modifikationen                                                                                                                                                                                                                                                                                                                                                                 |
+| **Modifikationen** |                                                                                                                                                                                                                                                                                                                                                                                      |
+| **Begründung** | Page Layout hat gut funktioniert zu generieren, jedoch mussten einige Kleinigkeiten geändert werden, vor allem was das Container Padding und <br> die Margins anging, da das `PaddedPageTemplate` eine zu hohes padding hatte sodass das Bild in der HeroSection Abstand zur NavBar hatte und dies seltsam aussah.<br> `PageTemplate` wurde dann erstellt um dieses Problem zu lösen |
+
+
+## Bugfixes (iterativ)
+
+| |                                                                                                                                             |
+|---|---------------------------------------------------------------------------------------------------------------------------------------------|
+| **Prompt/Aufgabe** | Mehrere Inline Bugfix-Anfragen: teilweise schwarzer Hintergrund im Body, Navbar nicht responsive, Mobile-Menu-Hintergrund hat falsche Farbe |
+| **AI-Output** | Anpassungen in `App.vue` (NavBar in auf Mobile geräten sah seltsam aus, falsche Farbe der Navbar auf Mobile Geräten)                        |
+| **Akzeptiert** | ✅ Schrittweise akzeptiert nach Überprüfung im Code und im Browser                                                                           |
+| **Begründung** | Ionic-spezifische Probleme (CSS Properties und wie diese)                                                                                   |
+
+## Zusammenfassung
+
+| Metrik | Wert                                      |
+|---|-------------------------------------------|
+| **AI-Tool** | GitHub Copilot (Claude-Opus 4.6)          |
+| **Anzahl Interaktionen** | 9 Prompts                                 |
+| **Generierter Code** | 13 Dateien bearbeitet (Views, Components) |
+| **Vollständig akzeptiert** | ~67%                                      |
+| **Mit Modifikationen akzeptiert** | ~33%                                      |
+| **Abgelehnt** | 0%                                        |
+
+**Hauptsächliche Modifikationen:** Styling-Fixes (Dark Mode, Hintergrundfarbe), Navigation (Tab-Bar → Burger+Horizontal), Scrolling-Verhalten. Diese entstanden durch iteratives Testing im Browser und Feedback an die AI.
+
+**Eigenleistung:** Architektur-Entscheidungen (Atomic Design Anforderung), UX-Anforderungen (Mobile-First, Burger vs. Horizontal Nav), Code-Review und Testing im Browser, Bugfinding und Fehlerbeschreibung.
+
