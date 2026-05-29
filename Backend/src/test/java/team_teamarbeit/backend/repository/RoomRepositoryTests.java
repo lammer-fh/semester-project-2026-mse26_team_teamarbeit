@@ -1,5 +1,7 @@
 package team_teamarbeit.backend.repository;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.time.LocalDate;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -52,9 +54,9 @@ class RoomRepositoryTests {
         List<Room> availableRooms = roomRepository.findAvailableRooms(standardRoomType.getId(), from, to);
 
         // assert
-        assert(availableRooms.size() == 2);
-        assert(availableRooms.contains(room101));
-        assert(availableRooms.contains(room102));
+        assertEquals(2, availableRooms.size());
+        assertTrue(availableRooms.contains(room101));
+        assertTrue(availableRooms.contains(room102));
     }
     
     @Test
@@ -72,8 +74,8 @@ class RoomRepositoryTests {
         List<Room> availableRooms = roomRepository.findAvailableRooms(standardRoomType.getId(), from, to);
 
         // assert
-        assert(availableRooms.size() == 1);
-        assert(availableRooms.contains(room102));
+        assertEquals(1, availableRooms.size());
+        assertTrue(availableRooms.contains(room102));
     }
 
     @Test
@@ -91,8 +93,8 @@ class RoomRepositoryTests {
         List<Room> availableRooms = roomRepository.findAvailableRooms(standardRoomType.getId(), from, to);
 
         // assert
-        assert(availableRooms.size() == 1);
-        assert(availableRooms.contains(room102));
+        assertEquals(1, availableRooms.size());
+        assertTrue(availableRooms.contains(room102));
     }
 
     @Test
@@ -110,9 +112,9 @@ class RoomRepositoryTests {
         List<Room> availableRooms = roomRepository.findAvailableRooms(standardRoomType.getId(), from, to);
 
         // assert
-        assert(availableRooms.size() == 2);
-        assert(availableRooms.contains(room101));
-        assert(availableRooms.contains(room102));
+        assertEquals(2, availableRooms.size());
+        assertTrue(availableRooms.contains(room101));
+        assertTrue(availableRooms.contains(room102));
     }
 
     @Test
@@ -130,8 +132,8 @@ class RoomRepositoryTests {
         List<Room> availableRooms = roomRepository.findAvailableRooms(standardRoomType.getId(), from, to);
 
         // assert
-        assert(availableRooms.size() == 2);
-        assert(availableRooms.contains(room101));
-        assert(availableRooms.contains(room102));
+        assertEquals(2, availableRooms.size());
+        assertTrue(availableRooms.contains(room101));
+        assertTrue(availableRooms.contains(room102));
     }
 }

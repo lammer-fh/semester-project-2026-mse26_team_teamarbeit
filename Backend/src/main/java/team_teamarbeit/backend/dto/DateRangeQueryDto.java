@@ -4,11 +4,9 @@ import java.time.LocalDate;
 import org.springframework.format.annotation.DateTimeFormat;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotNull;
-import lombok.Builder;
 import lombok.Data;
 
 @Data
-@Builder
 public class DateRangeQueryDto {
     @NotNull(message = "The 'from' date must not be null.")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)

@@ -24,7 +24,7 @@ public class RoomAvailabilityService {
         roomTypeRepository.findById(roomTypeId).orElseThrow(() -> new ResourceNotFoundException("Room type not found"));
 
         // check if any room of that type is available for the given time range
-        boolean isAvailable = roomRepository.findAvailableRooms(roomTypeId, from, to).size() > 0;
+        boolean isAvailable = !roomRepository.findAvailableRooms(roomTypeId, from, to).isEmpty();
         return RoomAvailabilityDto.fromAvailability(isAvailable);
     }
 }
