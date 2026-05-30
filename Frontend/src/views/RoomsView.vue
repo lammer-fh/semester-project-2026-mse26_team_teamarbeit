@@ -44,7 +44,7 @@ import StateMessage from "@/components/atoms/StateMessage.vue";
 const roomStore = useRoomStore();
 
 const currentPage = ref(1);
-const roomsPerPage = 6;
+const roomsPerPage = 5;
 
 const fallbackRoomImage = '/img/room-placeholder.jpg';
 
