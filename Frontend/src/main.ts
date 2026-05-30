@@ -31,7 +31,7 @@ import { createPinia } from 'pinia';
 
 const app = createApp(App)
   .use(IonicVue)
-  .use(createPinia)
+  .use(createPinia())
   .use(router);
 
 router.isReady().then(() => {

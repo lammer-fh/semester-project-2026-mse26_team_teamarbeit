@@ -8,7 +8,7 @@ const api = axios.create({
 api.interceptors.response.use(
     (response) => response,
     (error) => {
-        const message = error.response?.data?.errorMessage ?? 'An unexpected error occurred.'
+        const message = error.response?.data?.errorMessage ?? 'Ein unerwarteter Fehler ist aufgetreten!'
         return Promise.reject(new Error(message))
     }
 )
