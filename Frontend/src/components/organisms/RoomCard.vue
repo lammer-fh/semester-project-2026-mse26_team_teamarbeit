@@ -18,7 +18,7 @@
             Details ansehen
           </ion-button>
 
-          <ion-button size="default">
+          <ion-button size="default" :router-link="`/availability/${room.id}`">
             Verfügbarkeit prüfen
           </ion-button>
         </div>

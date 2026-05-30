@@ -25,7 +25,7 @@
         </div>
 
         <div class="room-actions">
-          <ion-button expand="block">
+          <ion-button expand="block" :router-link="`/availability/${room.id}`">
             Verfügbarkeit prüfen
           </ion-button>
           <ion-button expand="block" fill="outline" router-link="/rooms">
