@@ -1,7 +1,7 @@
 <template>
   <ion-page>
-    <ion-content :fullscreen="true" class="padded-page-content">
-      <div class="page-container">
+    <ion-content :fullscreen="true" class="page-content">
+      <div class="padded-page-container">
         <slot></slot>
       </div>
     </ion-content>
@@ -13,14 +13,12 @@ import { IonContent, IonPage } from '@ionic/vue';
 </script>
 
 <style scoped>
-.padded-page-content {
-  --background: #ffffff;
-  --padding-top: 16px;
+.page-content {
+  --padding-top: 56px;
 }
 
-.page-container {
+.padded-page-container {
   padding: 16px;
-  padding-top: 3rem;
   max-width: 800px;
   margin: 0 auto;
 }

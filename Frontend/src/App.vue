@@ -122,15 +122,6 @@ function goHome() {
 </script>
 
 <style>
-/* Reset Ionic dark mode and enforce white */
-:root {
-  --ion-background-color: #ffffff;
-  --ion-text-color: #1c1917;
-  --ion-toolbar-background: #ffffff;
-  --ion-toolbar-color: #1c1917;
-  --ion-item-background: #ffffff;
-}
-
 body {
   background: #ffffff !important;
 }
@@ -153,7 +144,6 @@ ion-menu ion-item {
   --color: #1c1917;
 }
 
-
 .app-toolbar {
   --background: #ffffff;
   --color: #1c1917;
@@ -166,11 +156,9 @@ ion-menu ion-item {
   cursor: pointer;
 }
 
-
 .mobile-menu-btn {
   display: flex;
 }
-
 
 .desktop-nav {
   display: none;
@@ -191,9 +179,8 @@ ion-menu ion-item {
 
 .desktop-nav a:hover,
 .desktop-nav a.active {
-  color: #b45309;
+  color: var(--app-dark-orange);
 }
-
 
 .mobile-menu {
   background-color: #ffffff;

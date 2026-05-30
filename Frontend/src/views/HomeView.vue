@@ -7,17 +7,15 @@
       image-src="https://images.unsplash.com/photo-1775866914943-ba1415a35afc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwzfHxsdXh1cnklMjBib3V0aXF1ZSUyMGhvdGVsJTIwbG9iYnl8ZW58MXx8fHwxNzc3ODEzNTQwfDA&ixlib=rb-4.1.0&q=80&w=1080"
       image-alt="Hotel Lobby"
     >
-      <ion-button @click="$router.push('/rooms')" size="large"  class="orange-button">
+      <ion-button @click="$router.push('/rooms')" size="large" class="orange-button">
         Zimmer entdecken
       </ion-button>
     </HeroSection>
-
 
     <FeaturesSection
       title="Ihr Komfort ist unsere Priorität"
       :features="features"
     />
-
 
     <section class="about-section">
       <div class="about-grid">
@@ -50,7 +48,6 @@
       </div>
     </section>
 
-
     <CtaSection
       title="Bereit für Ihren Aufenthalt?"
       description="Entdecken Sie unsere komfortablen Zimmer und buchen Sie noch heute."
@@ -79,9 +76,6 @@ const features = [
 </script>
 
 <style scoped>
-
-
-
 .about-section {
   padding: 3rem 1rem;
   background: #fafaf9;

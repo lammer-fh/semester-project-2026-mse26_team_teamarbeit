@@ -60,6 +60,7 @@ defineProps<{
 }
 
 .hero-content h1 {
+  color: #ffffff;
   font-weight: 700;
   margin-bottom: 16px;
 }
