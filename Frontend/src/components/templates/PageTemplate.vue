@@ -4,12 +4,14 @@
       <div class="page-container">
         <slot></slot>
       </div>
+      <Footer/>
     </ion-content>
   </ion-page>
 </template>
 
 <script setup lang="ts">
 import {IonContent, IonPage} from '@ionic/vue';
+import Footer from '@/components/organisms/Footer.vue'
 </script>
 
 <style scoped>
