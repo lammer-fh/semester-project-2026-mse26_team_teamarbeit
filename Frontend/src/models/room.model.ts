@@ -1,33 +1,37 @@
-import type { PageMeta, PaginationParams } from './shared.model'
+export interface RoomExtra {
+    name: string
+    icon: string
+}
 
 export interface Room {
     id: string
     name: string
     description: string
     pricePerNight: number
-    extras: string[]
+    coverImagePath: string | null
     imagePaths: string[]
+    roomExtras: RoomExtra[]
 }
 
-// Request objects
-export interface RoomListParams extends PaginationParams {
-    filter?: string
-    sort?:   string
-    page:    number
-}
-
-// date format: ISO-Date YYYY-MM-DD
-export interface RoomAvailabilityParams {
-    from: string
-    to:   string
-}
-
-// Response objects
 export interface RoomListResponse {
-    rooms: Room[]
-    page:  PageMeta
+    items: Room[]
+    last: boolean
+    pageNumber: number
+    pageSize: number
+    totalItems: number
+    totalPages: number
 }
 
 export interface RoomAvailabilityResponse {
     available: boolean
+}
+
+export interface RoomListParams {
+    page?: number;
+    size?: number;
+}
+
+export interface RoomAvailabilityParams {
+    from: string;
+    to: string;
 }

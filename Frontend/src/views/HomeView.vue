@@ -35,7 +35,7 @@
             Nachhaltigkeit und persönliche Betreuung stehen im Mittelpunkt unserer
             Philosophie. Wir freuen uns darauf, Sie bei uns begrüßen zu dürfen.
           </p>
-          <ion-button fill="outline" :router-link="`/about`" size="medium" class="about-btn">
+          <ion-button fill="outline" :router-link="`/about`" size="default" class="about-btn">
             Mehr über uns
           </ion-button>
         </div>

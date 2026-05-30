@@ -1,8 +1,9 @@
 export interface PageMeta {
-    size:          number
-    totalElements: number
-    totalPages:    number
-    number:        number
+    last:        boolean
+    pageNumber:  number
+    pageSize:    number
+    totalItems:  number
+    totalPages:  number
 }
 
 export interface PaginationParams {

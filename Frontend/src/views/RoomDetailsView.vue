@@ -72,11 +72,11 @@ const room = computed(() => {
     name: found.name,
     description: found.description,
     price: String(found.pricePerNight),
-    image: found.coverImagePath ?? fallbackRoomImage,
-    images: found.imagePaths && found.imagePaths.length > 0 ? found.imagePaths : [fallbackRoomImage],
+    image: found.imagePaths?.[0] ?? fallbackRoomImage,
+    images: found.imagePaths?.length > 0 ? found.imagePaths : [fallbackRoomImage],
     features: (found.roomExtras ?? []).map((extra) => ({
       label: extra.name,
-      icon: getIcon(extra.icon, extra.name),
+      icon: getIcon('', extra.icon),
     })),
   };
 });

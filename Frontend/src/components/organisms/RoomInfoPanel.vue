@@ -76,7 +76,7 @@ export default defineComponent({
       const { getIcon } = getIonicIcon()
       return (this.room?.roomExtras ?? []).map((extra) => ({
         label: extra.name,
-        icon: getIcon(extra.icon, extra.name),
+        icon: getIcon('', extra.icon),
       }))
     },
   },

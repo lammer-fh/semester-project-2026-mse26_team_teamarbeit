@@ -326,7 +326,12 @@ export default defineComponent({
       const period = { ...this.selectedPeriod }
       this.lastCheckedPeriod = null
       this.roomStore.clearAvailability()
-      await this.roomStore.checkAvailability(this.roomId, period)
+
+      await this.roomStore.checkAvailability(this.roomId, {
+        from: period.from,
+        to: period.to
+      })
+
       this.lastCheckedPeriod = this.roomStore.isAvailable === null ? null : period
     },
 

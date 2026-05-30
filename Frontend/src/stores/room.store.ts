@@ -10,7 +10,6 @@ export const useRoomStore = defineStore('room', () => {
     // State
     const rooms           = ref<Room[]>([])
     const currentRoom     = ref<Room | null>(null)
-    const roomBookings    = ref<Booking[]>([])
     const pagination      = ref<PageMeta | null>(null)
     const isAvailable     = ref<boolean | null>(null)
     const isLoading       = ref(false)
@@ -41,11 +40,11 @@ export const useRoomStore = defineStore('room', () => {
             const result     = await RoomApi.getList(params)
             rooms.value      = result.items
             pagination.value = {
-                last: result.last,
-                pageNumber: result.pageNumber,
-                pageSize: result.pageSize,
-                totalItems: result.totalItems,
-                totalPages: result.totalPages,
+                last:        result.last,
+                pageNumber:  result.pageNumber,
+                pageSize:    result.pageSize,
+                totalItems:  result.totalItems,
+                totalPages:  result.totalPages,
             }
         })
 
@@ -73,7 +72,6 @@ export const useRoomStore = defineStore('room', () => {
     return {
         rooms,
         currentRoom,
-        roomBookings,
         pagination,
         isAvailable,
         isLoading,

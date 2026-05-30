@@ -60,6 +60,7 @@ const mapRoomToCardData = (room: Room): RoomCardData => ({
   description: room.description,
   price: String(room.pricePerNight),
   image: room.coverImagePath ?? room.imagePaths?.[0] ?? fallbackRoomImage,
+  images: room.imagePaths?.length > 0 ? room.imagePaths : [fallbackRoomImage],
   features: (room.roomExtras ?? []).map((extra) => ({
     label: extra.name,
     icon: getIcon(extra.icon, extra.name),

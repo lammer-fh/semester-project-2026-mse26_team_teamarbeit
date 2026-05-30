@@ -39,12 +39,12 @@ export interface RoomFeature {
 }
 
 export interface RoomCardData {
-  id: number;
+  id: string;
   name: string;
   description: string;
   price: string;
   image: string;
-  images: string;
+  images: string[];
   features: RoomFeature[];
 }
 

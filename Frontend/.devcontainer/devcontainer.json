@@ -5,7 +5,7 @@
   "image": "mcr.microsoft.com/devcontainers/javascript-node:1-22-bookworm",
   "remoteUser": "node",
   "features": {},
-  "forwardPorts": [8100, 5173],
+  "forwardPorts": [8100, 4173],
   "customizations": {
     "vscode": {
       "settings": {
