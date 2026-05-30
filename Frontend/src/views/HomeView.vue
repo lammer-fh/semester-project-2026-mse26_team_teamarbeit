@@ -4,20 +4,18 @@
     <HeroSection
       title="Boutique Hotel Technikum"
       subtitle="Smart comfort in the heart of Vienna"
-      image-src="https://images.unsplash.com/photo-1775866914943-ba1415a35afc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwzfHxsdXh1cnklMjBib3V0aXF1ZSUyMGhvdGVsJTIwbG9iYnl8ZW58MXx8fHwxNzc3ODEzNTQwfDA&ixlib=rb-4.1.0&q=80&w=1080"
+      image-src="/img/home1.jpg"
       image-alt="Hotel Lobby"
     >
-      <ion-button @click="$router.push('/rooms')" size="large"  class="orange-button">
+      <ion-button :router-link="`/rooms`" size="large">
         Zimmer entdecken
       </ion-button>
     </HeroSection>
-
 
     <FeaturesSection
       title="Ihr Komfort ist unsere Priorität"
       :features="features"
     />
-
 
     <section class="about-section">
       <div class="about-grid">
@@ -37,25 +35,24 @@
             Nachhaltigkeit und persönliche Betreuung stehen im Mittelpunkt unserer
             Philosophie. Wir freuen uns darauf, Sie bei uns begrüßen zu dürfen.
           </p>
-          <ion-button fill="outline" @click="$router.push('/about')" size="medium" class="about-btn orange-button-outlined">
+          <ion-button fill="outline" :router-link="`/about`" size="medium" class="about-btn">
             Mehr über uns
           </ion-button>
         </div>
         <div class="about-image">
           <img
-            src="https://images.unsplash.com/photo-1723465313715-586dd9689b8f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBib3V0aXF1ZSUyMGhvdGVsJTIwbG9iYnl8ZW58MXx8fHwxNzc3ODEzNTQwfDA&ixlib=rb-4.1.0&q=80&w=1080"
+            src="/img/home2.jpg"
             alt="Hotel Interior"
           />
         </div>
       </div>
     </section>
 
-
     <CtaSection
       title="Bereit für Ihren Aufenthalt?"
       description="Entdecken Sie unsere komfortablen Zimmer und buchen Sie noch heute."
     >
-      <ion-button color="light" @click="$router.push('/rooms')" size="large" class="dark-gray-button">
+      <ion-button color="light" :router-link="`/rooms`" size="large">
         Zimmer ansehen
       </ion-button>
     </CtaSection>
@@ -79,9 +76,6 @@ const features = [
 </script>
 
 <style scoped>
-
-
-
 .about-section {
   padding: 3rem 1rem;
   background: #fafaf9;

@@ -1,8 +1,10 @@
 <template>
   <PaddedPageTemplate>
-    <h1 class="imprint-title">Impressum</h1>
+    <header>
+      <h1>Impressum</h1>
+    </header>
 
-    <div class="imprint-card">
+    <div class="card">
       <LegalSection title="Angaben gemäß § 5 TMG">
         <p class="font-semibold">Boutique Hotel Technikum GmbH</p>
         <p>Höchstädtplatz 6</p>
@@ -74,21 +76,8 @@ import LegalSection from '@/components/molecules/LegalSection.vue';
 </script>
 
 <style scoped>
-.imprint-title {
-  font-size: 1.75rem;
-  font-weight: 700;
-  color: #1c1917;
-  margin-bottom: 1.5rem;
-}
-
-.imprint-card {
-  background: #ffffff;
-  border-radius: 12px;
+.card {
   padding: 24px 20px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
 }
 
 .disclaimer-block {
@@ -105,11 +94,7 @@ import LegalSection from '@/components/molecules/LegalSection.vue';
 }
 
 @media (min-width: 768px) {
-  .imprint-title {
-    font-size: 2.25rem;
-  }
-
-  .imprint-card {
+  .card {
     padding: 32px;
   }
 }

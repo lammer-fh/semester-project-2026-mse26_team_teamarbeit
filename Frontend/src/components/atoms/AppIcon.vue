@@ -21,9 +21,10 @@ const sizeClass = computed(() => `icon-${props.size}`);
   justify-content: center;
   background: #fef3c7;
   border-radius: 8px;
+  aspect-ratio: 1 / 1;
 }
 .app-icon ion-icon {
-  color: #b45309;
+  color: var(--ion-color-primary-shade);
 }
 .icon-sm {
   width: 36px;

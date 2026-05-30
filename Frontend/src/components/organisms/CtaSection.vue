@@ -16,15 +16,13 @@ defineProps<{
 <style scoped>
 .cta-section {
   padding: 48px 16px;
-  background: #b45309;
+  background: var(--ion-color-primary-shade);
   text-align: center;
   color: white;
 }
 
 .cta-section h2 {
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin-bottom: 12px;
+  color: #ffffff;
 }
 
 .cta-section p {

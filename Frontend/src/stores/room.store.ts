@@ -2,7 +2,7 @@ import { ref, computed }  from 'vue'
 import { defineStore }    from 'pinia'
 import { RoomApi }        from '@/api/endpoints/room.endpoints'
 import type { Room, RoomListParams, RoomAvailabilityParams } from '@/models/room.model'
-import type { PageMeta, PaginationParams }                   from '@/models/shared.model'
+import type { PageMeta }                                      from '@/models/shared.model'
 /*import type { Booking }                                      from '@/models/booking.model'*/
 
 export const useRoomStore = defineStore('room', () => {
@@ -18,7 +18,7 @@ export const useRoomStore = defineStore('room', () => {
 
     const hasNextPage = computed(() =>
         pagination.value
-            ? pagination.value.number < pagination.value.totalPages - 1
+            ? !pagination.value.last
             : false
     )
 
@@ -39,13 +39,19 @@ export const useRoomStore = defineStore('room', () => {
     const fetchRooms = (params: RoomListParams) =>
         withLoading(async () => {
             const result     = await RoomApi.getList(params)
-            rooms.value      = result.rooms
-            pagination.value = result.page
+            rooms.value      = result.items
+            pagination.value = {
+                last: result.last,
+                pageNumber: result.pageNumber,
+                pageSize: result.pageSize,
+                totalItems: result.totalItems,
+                totalPages: result.totalPages,
+            }
         })
 
     const fetchRoomById = (id: string) =>
         withLoading(async () => {
-            currentRoom.value = await RoomApi.getById(id)   // ✅ Room, unambiguously
+            currentRoom.value = await RoomApi.getById(id)
         })
 
     const checkAvailability = (id: string, params: RoomAvailabilityParams) =>

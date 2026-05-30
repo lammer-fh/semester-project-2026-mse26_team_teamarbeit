@@ -1,16 +1,15 @@
 <template>
   <PaddedPageTemplate>
 
-    <div class="about-header">
+    <header>
       <h1>Über das Boutique Hotel Technikum</h1>
       <p>Ein Ort, an dem Tradition auf Moderne trifft und Gastfreundschaft großgeschrieben wird.</p>
-    </div>
+    </header>
 
-
-    <div class="story-section">
+    <section class="story-section">
       <div class="story-image">
         <img
-          src="https://images.unsplash.com/photo-1775866914852-64e403d55a02?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwyfHxsdXh1cnklMjBib3V0aXF1ZSUyMGhvdGVsJTIwbG9iYnl8ZW58MXx8fHwxNzc3ODEzNTQwfDA&ixlib=rb-4.1.0&q=80&w=1080"
+          src="/img/story.jpg"
           alt=""
         />
       </div>
@@ -32,10 +31,9 @@
           in Wien zu einem unvergesslichen Erlebnis zu machen.
         </p>
       </div>
-    </div>
+    </section>
 
-
-    <div class="values-section">
+    <section class="values-section">
       <h2>Unsere Werte</h2>
       <div class="values-grid">
         <ValueCard
@@ -46,8 +44,7 @@
           :description="value.description"
         />
       </div>
-    </div>
-
+    </section>
 
     <ContactCard
       title="Haben Sie Fragen?"
@@ -89,30 +86,6 @@ const values = [
 </script>
 
 <style scoped>
-
-.about-header {
-  text-align: center;
-  margin-bottom: 2.5rem;
-}
-
-.about-header h1 {
-  font-size: 1.75rem;
-  font-weight: 700;
-  color: #1c1917;
-  margin-bottom: 0.75rem;
-}
-
-.about-header p {
-  font-size: 1rem;
-  color: #57534e;
-  line-height: 1.6;
-}
-
-
-.story-section {
-  margin-bottom: 2.5rem;
-}
-
 .story-image {
   border-radius: 0.75rem;
   overflow: hidden;
@@ -127,30 +100,14 @@ const values = [
   object-fit: cover;
 }
 
-.story-text h2 {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #1c1917;
-  margin-bottom: 0.75rem;
-}
-
 .story-text p {
   color: #44403c;
   line-height: 1.7;
   margin-bottom: 0.75rem;
 }
 
-
-.values-section {
-  margin-bottom: 2.5rem;
-}
-
 .values-section h2 {
-  font-size: 1.5rem;
-  font-weight: 700;
   text-align: center;
-  color: #1c1917;
-  margin-bottom: 1.5rem;
 }
 
 .values-grid {
@@ -162,10 +119,6 @@ const values = [
 @media (min-width: 768px) {
   .values-grid {
     grid-template-columns: 1fr 1fr;
-  }
-
-  .about-header h1 {
-    font-size: 2.25rem;
   }
 }
 </style>
