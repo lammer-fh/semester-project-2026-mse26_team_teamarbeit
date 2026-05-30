@@ -9,7 +9,7 @@
 | :------- | :------- | :------------------------------------------------------------------------------------ | :-------------------- |
 | `filter` | `string` | Only rooms where the name contains the given filter are returned. Not case sensitive. | `?filter=suite`       |
 | `sort`   | `string` | The room's attribute by which the returned list should be sorted.                     | `?sort=pricePerNight` |
-| `page`   | `number` | MANDATORY! Current page that should be loaded.                                        | `?page=1` |
+| `page`   | `number` | MANDATORY! Current page that should be loaded. Index starts at 0.                     | `?page=0` |
 | `size`   | `number` | Number of elements returned with the current page load. Default = 5                   | `?size=5` |
 #### Responses
 
@@ -20,23 +20,29 @@
 ##### Success
 ```
 {
-	"rooms": [
+	"items": [
 		{
 			"id": Guid,
 			"name": string,
 			"description": string,
 			"pricePerNight": double,
-            "extras": string[],
+            "roomExtras": {
+				{
+					"name": string,
+					"icon": string
+				},
+				...
+			},
+			"coverImagePath": string,
             "imagePaths": string[]
 		},
 		...
 	],
-    "page": {
-        "size": number,
-        "totalElements": number,
-        "totalPages": number,
-        "number": number
-    }
+	"last": boolean,
+	"pageNumber": number,
+	"pageSize": number,
+	"totalItems": number,
+	"totalPages": number,
 }
 ```
 ##### Error
