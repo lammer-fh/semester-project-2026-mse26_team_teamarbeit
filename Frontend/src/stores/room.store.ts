@@ -1,27 +1,31 @@
-import { computed, ref } from 'vue'
-import { defineStore } from 'pinia'
-import { RoomApi } from '@/api/endpoints/room.endpoints'
-import type { Room, RoomAvailabilityParams, RoomListParams } from '@/models/room.model'
-import type { PageMeta } from '@/models/shared.model'
+import { ref, computed }  from 'vue'
+import { defineStore }    from 'pinia'
+import { RoomApi }        from '@/api/endpoints/room.endpoints'
+import type { Room, RoomListParams, RoomAvailabilityParams } from '@/models/room.model'
+import type { PageMeta }                                      from '@/models/shared.model'
+/*import type { Booking }                                      from '@/models/booking.model'*/
 
 export const useRoomStore = defineStore('room', () => {
-    const rooms = ref<Room[]>([])
-    const currentRoom = ref<Room | null>(null)
-    const pagination = ref<PageMeta | null>(null)
-    const isAvailable = ref<boolean | null>(null)
-    const isLoading = ref(false)
-    const error = ref<string | null>(null)
+
+    // State
+    const rooms           = ref<Room[]>([])
+    const currentRoom     = ref<Room | null>(null)
+    const roomBookings    = ref<Booking[]>([])
+    const pagination      = ref<PageMeta | null>(null)
+    const isAvailable     = ref<boolean | null>(null)
+    const isLoading       = ref(false)
+    const error           = ref<string | null>(null)
 
     const hasNextPage = computed(() =>
         pagination.value
-            ? pagination.value.number < pagination.value.totalPages - 1
+            ? !pagination.value.last
             : false
     )
 
+    // Helpers
     const withLoading = async (fn: () => Promise<void>): Promise<void> => {
         isLoading.value = true
-        error.value = null
-
+        error.value     = null
         try {
             await fn()
         } catch (e) {
@@ -31,11 +35,18 @@ export const useRoomStore = defineStore('room', () => {
         }
     }
 
+    // Actions
     const fetchRooms = (params: RoomListParams) =>
         withLoading(async () => {
-            const result = await RoomApi.getList(params)
-            rooms.value = result.rooms
-            pagination.value = result.page
+            const result     = await RoomApi.getList(params)
+            rooms.value      = result.items
+            pagination.value = {
+                last: result.last,
+                pageNumber: result.pageNumber,
+                pageSize: result.pageSize,
+                totalItems: result.totalItems,
+                totalPages: result.totalPages,
+            }
         })
 
     const fetchRoomById = (id: string) =>
@@ -62,6 +73,7 @@ export const useRoomStore = defineStore('room', () => {
     return {
         rooms,
         currentRoom,
+        roomBookings,
         pagination,
         isAvailable,
         isLoading,

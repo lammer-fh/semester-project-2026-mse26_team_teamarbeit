@@ -11,6 +11,11 @@ export default defineConfig({
     vue(),
     legacy()
   ],
+  server: {
+    watch: {
+      usePolling: true,
+    }
+  },
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
