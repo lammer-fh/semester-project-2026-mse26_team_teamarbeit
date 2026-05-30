@@ -4,11 +4,19 @@ import HomeView from '../views/HomeView.vue'
 import AboutView from '../views/AboutView.vue'
 import RoomsView from '../views/RoomsView.vue'
 import ImprintView from '../views/ImprintView.vue'
+import BookingView from '../views/BookingView.vue'
 import RoomDetailsView from "@/views/RoomDetailsView.vue";
+import AvailabilityCheck from "../views/AvailabilityCheck.vue";
+
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
     redirect: '/home'
+  },
+  {
+    path: '/availability/:id',
+    name: 'AvailabilityCheck',
+    component: AvailabilityCheck
   },
   {
     path: '/home',
@@ -29,6 +37,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/rooms/:id',
     name: 'RoomDetail',
     component: RoomDetailsView
+  },
+  {
+    path: '/rooms/:id/book',
+    name: 'Booking',
+    component: BookingView
   },
   {
     path: '/impressum',

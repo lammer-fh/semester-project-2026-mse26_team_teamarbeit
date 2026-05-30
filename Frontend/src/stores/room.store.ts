@@ -56,30 +56,33 @@ export const useRoomStore = defineStore('room', () => {
 
     const checkAvailability = (id: string, params: RoomAvailabilityParams) =>
         withLoading(async () => {
-            const result      = await RoomApi.checkAvailability(id, params)
+            const result = await RoomApi.checkAvailability(id, params)
             isAvailable.value = result.available
         })
 
-    /*const fetchRoomBookings = (id: string, params?: PaginationParams) =>
-        withLoading(async () => {
-            const result       = await RoomApi.getBookings(id, params)
-            roomBookings.value = result.bookings
-            pagination.value   = result.page
-        })*/
-
-    // Reset
     const clearCurrentRoom = (): void => {
         currentRoom.value = null
         isAvailable.value = null
-        roomBookings.value = []
+    }
+
+    const clearAvailability = (): void => {
+        isAvailable.value = null
+        error.value = null
     }
 
     return {
-        rooms, currentRoom, roomBookings,
-        pagination, isAvailable, isLoading, error,
+        rooms,
+        currentRoom,
+        roomBookings,
+        pagination,
+        isAvailable,
+        isLoading,
+        error,
         hasNextPage,
-        fetchRooms, fetchRoomById, checkAvailability,
-        // fetchRoomBookings,
+        fetchRooms,
+        fetchRoomById,
+        checkAvailability,
         clearCurrentRoom,
+        clearAvailability,
     }
 })
