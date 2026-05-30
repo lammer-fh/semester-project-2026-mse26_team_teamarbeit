@@ -12,6 +12,7 @@ export default defineConfig({
     legacy()
   ],
   server: {
+    port: 4173,
     watch: {
       usePolling: true,
     }
