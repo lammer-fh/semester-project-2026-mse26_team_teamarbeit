@@ -8,27 +8,17 @@
       <h2>{{ room.name }}</h2>
       <p>{{ room.description }}</p>
 
-      <ul class="room-features">
-        <IconPill
-            v-for="feature in room.features"
-            :key="feature.label"
-            :label="feature.label"
-            :icon="feature.icon"
-        />
-      </ul>
+      <RoomFeatureList :features="room.features" />
 
       <div class="room-footer">
-        <p class="room-price">
-          <span class="room-price-amount">€{{ room.price }}</span>
-          <span class="room-price-period">/ Nacht</span>
-        </p>
+        <PriceDisplay :price="room.price" />
 
         <div class="room-actions">
-          <ion-button size="default" class="white-button">
+          <ion-button size="default" fill="outline" @click="$router.push(`/rooms/${room.id}`)">
             Details ansehen
           </ion-button>
 
-          <ion-button size="default" class="orange-button">
+          <ion-button size="default">
             Verfügbarkeit prüfen
           </ion-button>
         </div>
@@ -40,6 +30,8 @@
 <script setup lang="ts">
 import { IonButton } from '@ionic/vue';
 import IconPill from '@/components/atoms/IconPill.vue';
+import PriceDisplay from "@/components/atoms/PriceDisplay.vue";
+import RoomFeatureList from "@/components/molecules/RoomFeatureList.vue";
 
 export interface RoomFeature {
   label: string;
@@ -52,6 +44,7 @@ export interface RoomCardData {
   description: string;
   price: string;
   image: string;
+  images: string;
   features: RoomFeature[];
 }
 
@@ -106,45 +99,16 @@ defineProps<{
   line-height: 1.625;
 }
 
-.room-features {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin: 0;
-  padding: 0 0 1.5rem;
-  border-bottom: 1px solid #e7e5e4;
-  list-style: none;
-}
-
 .room-footer {
   margin-top: auto;
   padding-top: 1.25rem;
-}
-
-.room-price {
-  display: flex;
-  align-items: baseline;
-  gap: 0.35rem;
-  margin: 0 0 1rem;
-}
-
-.room-price-amount {
-  color: var(--app-orange);
-  font-size: 2rem;
-  line-height: 1;
-  font-weight: 700;
-}
-
-.room-price-period {
-  color: #78716c;
-  font-size: 0.875rem;
-  font-weight: 500;
 }
 
 .room-actions {
   display: grid;
   grid-template-columns: 1fr;
   gap: 0.75rem;
+  padding-top: 1.25rem;
 }
 
 .room-actions ion-button {

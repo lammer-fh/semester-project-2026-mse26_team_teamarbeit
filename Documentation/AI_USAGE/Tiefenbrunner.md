@@ -153,6 +153,43 @@
 
 ---
 
+## 12. RoomDetail-Seite aus React nach Vue/Ionic konvertieren
+
+|                    |                                                                                                                                                                                                                          |
+|--------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Aufgabe**        | Eine vorhandene Zimmer-Detail-React-Seite aus unserem Figma-Paperprototype sollte in eine Vue/Ionic-Komponente umgewandelt werden, unter Wiederverwendung bestehender Komponenten aus `RoomsView.vue`.                                                    |
+| **Prompt**         | Convert this react page into a vue page with ionic. Use ionic buttons and icons. I already have a general rooms page (see attached), use the same style and reuse components. `<RoomDetailPage.tsx>` `<RoomsView.vue>`   |
+| **AI-Output**      | Vollständige `RoomDetailView.vue` mit `IonButton`, `IonIcon`, `PageTemplate`, `IconPill`, Bild-Banner, Preis-Block, Feature-Grid, Back-Button und Routing via `:router-link`. Hinweise zu `@JoinTable`, Routing-Setup und Auslagerung von `getFeatureIcon` in ein Composable. |
+| **Akzeptiert**     | ✅ Mit Modifikationen                                                                                                                                                                                                     |
+| **Modifikationen** | Layout und Komponenten wurden iterativ angepasst; `getFeatureIcon` in `getIonicIcon.ts` ausgelagert, `PaddedPageTemplate` statt `PageTemplate` verwendet.                                                               |
+| **Begründung**     | Die AI lieferte eine solide Grundstruktur, die direkt an die bestehende Komponentenarchitektur angepasst werden konnte.                                                                                                  |
+
+---
+
+## 13. Gemeinsame Subkomponenten aus RoomsView und RoomDetailView extrahieren
+
+|                    |                                                                                                                                                                                                                          |
+|--------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Aufgabe**        | Wiederverwendbare Subkomponenten aus beiden Views sollten nach Atomic Design in `atoms`, `molecules`, `organisms` und `templates` aufgeteilt werden.                                                                     |
+| **Prompt**         | Das sind beide Komponenten. Kannst du gemeinsame Subkomponenten extrahieren und sie in einen components-Ordner (mit atoms, molecules, organisms und templates Subfoldern) aufteilen? `<RoomDetailView.vue>` `<RoomsView.vue>` |
+| **AI-Output**      | Neue Komponenten: `StateMessage.vue` (atom), `PriceDisplay.vue` (atom), `RoomFeatureList.vue` (molecule), `RoomImageBanner.vue` (molecule), `BackButton.vue` (molecule). Aktualisierte `RoomDetailView.vue` mit allen extrahierten Komponenten und finale Ordnerstruktur. |
+| **Akzeptiert**     | ✅ Mit Modifikationen                                                                                                                                                                                                     |
+| **Modifikationen** | `StateMessage` wurde auch in `RoomsView.vue` eingesetzt. `RoomImageBanner` wurde später durch `RoomImageCarousel` ersetzt.                                                                                              |
+| **Begründung**     | Die Aufteilung entsprach dem bereits verwendeten Atomic-Design-Ansatz und reduzierte Codeduplikation zwischen den beiden Views deutlich.                                                                                 |
+
+---
+
+## 14. Bild-Karussell mit Pfeil-Navigation für RoomDetailView
+
+|                    |                                                                                                                                                                                                                          |
+|--------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Aufgabe**        | Die Detailseite sollte mehrere Bilder aus `imagePaths` anzeigen können, mit Links/Rechts-Pfeilen und Dot-Navigation.                                                                                                    |
+| **Prompt**         | Die Roomdetail-Seite soll mehrere Bilder aus dem found.imagePaths array anzeigen, mit Pfeilen für links und rechts. Das ist der aktuelle Stand: `<RoomDetailView.vue>`                                                  |
+| **AI-Output**      | Neue Komponente `RoomImageCarousel.vue` mit `chevronBackOutline`/`chevronForwardOutline` Buttons, Dot-Indikatoren, zyklischer Navigation und Fallback auf ein einzelnes Bild. Anpassung von `RoomDetailView.vue` und dem `room` computed um ein `images`-Array zu übergeben. |
+| **Akzeptiert**     | ✅ Vollständig                                                                                                                                                                                                            |
+| **Modifikationen** | Keine – Komponente und computed wurden direkt übernommen.                                                                                                                                                               |
+| **Begründung**     | Die Lösung war vollständig und passte zur bestehenden Komponentenstruktur. Pfeile werden nur bei mehr als einem Bild angezeigt.                                                                                         |
+
 # Backend
 
 ## Kontext

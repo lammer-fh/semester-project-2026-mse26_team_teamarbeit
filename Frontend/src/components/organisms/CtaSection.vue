@@ -16,7 +16,7 @@ defineProps<{
 <style scoped>
 .cta-section {
   padding: 48px 16px;
-  background: var(--app-dark-orange);
+  background: var(--ion-color-primary-shade);
   text-align: center;
   color: white;
 }

@@ -28,7 +28,7 @@ defineProps<{
 }
 
 .icon-pill ion-icon {
-  color: var(--app-orange);
+  color: var(--ion-color-primary);
   font-size: 1rem;
   flex-shrink: 0;
 }

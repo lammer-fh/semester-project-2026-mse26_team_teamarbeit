@@ -4,6 +4,7 @@ import HomeView from '../views/HomeView.vue'
 import AboutView from '../views/AboutView.vue'
 import RoomsView from '../views/RoomsView.vue'
 import ImprintView from '../views/ImprintView.vue'
+import RoomDetailsView from "@/views/RoomDetailsView.vue";
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
@@ -23,6 +24,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/rooms',
     name: 'Rooms',
     component: RoomsView
+  },
+  {
+    path: '/rooms/:id',
+    name: 'RoomDetail',
+    component: RoomDetailsView
   },
   {
     path: '/impressum',

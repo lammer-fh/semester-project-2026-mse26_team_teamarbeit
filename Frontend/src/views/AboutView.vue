@@ -9,7 +9,7 @@
     <section class="story-section">
       <div class="story-image">
         <img
-          src="https://images.unsplash.com/photo-1775866914852-64e403d55a02?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwyfHxsdXh1cnklMjBib3V0aXF1ZSUyMGhvdGVsJTIwbG9iYnl8ZW58MXx8fHwxNzc3ODEzNTQwfDA&ixlib=rb-4.1.0&q=80&w=1080"
+          src="/img/story.jpg"
           alt=""
         />
       </div>

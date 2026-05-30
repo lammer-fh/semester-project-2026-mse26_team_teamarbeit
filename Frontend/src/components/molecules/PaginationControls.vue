@@ -2,7 +2,7 @@
   <nav v-if="totalPages > 1" class="pagination" aria-label="Seitennavigation">
     <ion-button
         size="default"
-        class="white-button"
+        fill="outline"
         :disabled="currentPage === 1"
         aria-label="Vorherige Seite"
         @click="$emit('page-change', currentPage - 1)"
@@ -14,8 +14,7 @@
         v-for="page in totalPages"
         :key="page"
         size="default"
-        class="white-button"
-        :class="{ active: currentPage === page }"
+        :fill="currentPage === page ? 'solid' : 'outline'"
         @click="$emit('page-change', page)"
     >
       {{ page }}
@@ -23,7 +22,7 @@
 
     <ion-button
         size="default"
-        class="white-button"
+        fill="outline"
         :disabled="currentPage === totalPages"
         aria-label="Nächste Seite"
         @click="$emit('page-change', currentPage + 1)"

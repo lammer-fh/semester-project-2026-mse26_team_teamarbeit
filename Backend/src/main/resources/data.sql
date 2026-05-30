@@ -1,5 +1,4 @@
 -- ROOM_TYPES
--- TODO: Replace with self-hosted images
 INSERT INTO room_types (id, name, description, price_per_night, cover_image_path)
 VALUES ('a1000000-0000-0000-0000-000000000001', 'Classic Einzelzimmer',
         'Gemütliches Zimmer mit moderner Ausstattung und ruhiger Atmosphäre.', 89.00, './img/room1.jpg'),
@@ -72,7 +71,6 @@ VALUES ('b1000000-0000-0000-0000-000000000001', 'a1000000-0000-0000-0000-0000000
        ('b1000000-0000-0000-0000-000000000008', 'a1000000-0000-0000-0000-000000000008', '304');
 
 -- IMAGES
--- TODO: Replace with self-hosted images
 INSERT INTO room_images (id, image_path, room_type_id)
 VALUES ('c1000000-0000-0000-0000-000000000001', './img/room1.jpg', 'a1000000-0000-0000-0000-000000000001'),
        ('c1000000-0000-0000-0000-000000000002', './img/room2.jpg', 'a1000000-0000-0000-0000-000000000002'),

@@ -179,7 +179,7 @@ ion-menu ion-item {
 
 .desktop-nav a:hover,
 .desktop-nav a.active {
-  color: var(--app-dark-orange);
+  color: var(--ion-color-primary-shade);
 }
 
 .mobile-menu {

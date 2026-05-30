@@ -24,7 +24,7 @@ const sizeClass = computed(() => `icon-${props.size}`);
   aspect-ratio: 1 / 1;
 }
 .app-icon ion-icon {
-  color: var(--app-dark-orange);
+  color: var(--ion-color-primary-shade);
 }
 .icon-sm {
   width: 36px;
