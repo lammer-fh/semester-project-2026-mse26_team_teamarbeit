@@ -1,5 +1,5 @@
 -- ROOM_TYPES
-INSERT INTO room_types (id, name, description, price_per_night, cover_image_path)
+INSERT IGNORE INTO room_types (id, name, description, price_per_night, cover_image_path)
 VALUES ('a1000000-0000-0000-0000-000000000001', 'Classic Einzelzimmer',
         'Gemütliches Zimmer mit moderner Ausstattung und ruhiger Atmosphäre.', 89.00, './img/room1.jpg'),
        ('a1000000-0000-0000-0000-000000000002', 'Comfort Doppelzimmer',
@@ -18,7 +18,7 @@ VALUES ('a1000000-0000-0000-0000-000000000001', 'Classic Einzelzimmer',
         'Dieses Zimmer hat kein Bild und keine Ausstattung.', 40.00, null);
 
 -- ROOM_EXTRAS
-INSERT INTO room_extras (name, icon)
+INSERT IGNORE INTO room_extras (name, icon)
 VALUES ('1 Person', 'personOutline'),
        ('2 Personen', 'peopleOutline'),
        ('4 Personen', 'peopleOutline'),
@@ -36,7 +36,7 @@ VALUES ('1 Person', 'personOutline'),
        ('Luxusbad', 'sparklesOutline');
 
 -- ROOM_TYPES <-> ROOM_EXTRAS (join table, assumed name: room_type_extras)
-INSERT INTO room_type_extras (room_type_id, room_extras_name)
+INSERT IGNORE INTO room_type_extras (room_type_id, room_extras_name)
 VALUES ('a1000000-0000-0000-0000-000000000001', '1 Person'),
        ('a1000000-0000-0000-0000-000000000001', 'Kostenloses WLAN'),
        ('a1000000-0000-0000-0000-000000000001', 'Schreibtisch'),
@@ -60,7 +60,7 @@ VALUES ('a1000000-0000-0000-0000-000000000001', '1 Person'),
        ('a1000000-0000-0000-0000-000000000007', 'Luxusbad');
 
 -- ROOMS (one physical room per type for now)
-INSERT INTO rooms (id, room_type_id, room_number)
+INSERT IGNORE INTO rooms (id, room_type_id, room_number)
 VALUES ('b1000000-0000-0000-0000-000000000001', 'a1000000-0000-0000-0000-000000000001', '101'),
        ('b1000000-0000-0000-0000-000000000002', 'a1000000-0000-0000-0000-000000000002', '102'),
        ('b1000000-0000-0000-0000-000000000003', 'a1000000-0000-0000-0000-000000000003', '201'),
@@ -71,7 +71,7 @@ VALUES ('b1000000-0000-0000-0000-000000000001', 'a1000000-0000-0000-0000-0000000
        ('b1000000-0000-0000-0000-000000000008', 'a1000000-0000-0000-0000-000000000008', '304');
 
 -- IMAGES
-INSERT INTO room_images (id, image_path, room_type_id)
+INSERT IGNORE INTO room_images (id, image_path, room_type_id)
 VALUES ('c1000000-0000-0000-0000-000000000001', './img/room1.jpg', 'a1000000-0000-0000-0000-000000000001'),
        ('c1000000-0000-0000-0000-000000000002', './img/room2.jpg', 'a1000000-0000-0000-0000-000000000002'),
        ('c1000000-0000-0000-0000-000000000003', './img/room3.jpg', 'a1000000-0000-0000-0000-000000000003'),

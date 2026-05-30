@@ -1,4 +1,10 @@
 # Advanced Webtechnologies (SS26)
+## How to run this application
+1. Start Docker
+2. Navigate into the project's repository folder (where compose.yml is located)
+3. Run ```docker compose up --build -d```
+   - ```--build``` rebuilds the frontend and backend for each start up, you can omit this if you have no local image of either or if you want to use the existing image
+   - ```-d``` starts the containers in detached mode, meaning you can close the console after running the command, without shutting down the containers. You can omit this tag to simply shutdown the containers with the console after you're done using the application.
 ## Developer Notes
 ### Dev Containers
 This Project is set up to use **Dev Containers** for a better experience between developers on Mac and Windows. The Frontend and Backend use separate Containers to each fit its environment natively.
