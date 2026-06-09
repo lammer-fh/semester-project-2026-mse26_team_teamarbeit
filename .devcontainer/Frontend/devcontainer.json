@@ -1,0 +1,31 @@
+{
+  "name": "Frontend Dev Container",
+  "dockerComposeFile": [
+    "../../compose.dev.yml",
+    "../../compose.yml"
+  ],
+  "service": "dev-frontend",
+  "workspaceFolder": "/workspace/Frontend",
+  "workspaceMount": "source=${localWorkspaceFolder}/..,target=/workspace,type=bind,consistency=cached",
+  "remoteUser": "node",
+  "features": {},
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "eslint.validate": ["javascript", "javascriptreact", "vue"],
+        "files.eol": "\n"
+      },
+      "extensions": [
+        "Vue.volar",
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "ionic.ionic",
+        "webnative.webnative"
+      ]
+    }
+  },
+  "runServices": ["database", "backend"],
+  "postCreateCommand": "npm install -g npm@latest && npm install -g @ionic/cli && npm install"
+}

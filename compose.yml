@@ -13,8 +13,6 @@ services:
       - "3307:3306"
     volumes:
       - db_data:/var/lib/mysql
-    networks:
-      - hotel-network
     healthcheck:
       test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "user", "-ppassword" ]
       interval: 5s
@@ -38,8 +36,6 @@ services:
     depends_on:
       database:
         condition: service_healthy
-    networks:
-      - hotel-network
 
   frontend:
     build:
@@ -48,14 +44,8 @@ services:
     container_name: frontend
     ports:
       - "4173:80"
-    depends_on:
-      - backend
-    networks:
-      - hotel-network
-
-networks:
-  hotel-network:
-    driver: bridge
+    environment:
+      - BACKEND_URL=http://backend:8080
 
 volumes:
   db_data:

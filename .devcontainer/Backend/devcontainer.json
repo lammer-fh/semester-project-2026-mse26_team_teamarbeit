@@ -1,0 +1,26 @@
+{
+  "name": "Backend Dev Container",
+  "dockerComposeFile": [
+    "../../compose.dev.yml",
+    "../../compose.yml"
+  ],
+  "service": "dev-backend",
+  "workspaceFolder": "/workspace/Backend",
+  "workspaceMount": "source=${localWorkspaceFolder}/..,target=/workspace,type=bind,consistency=cached",
+  "remoteUser": "vscode",
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "java.format.settings.url": "eclipse-formatter.xml",
+        "files.eol": "\n"
+      },
+      "extensions": [
+        "vscjava.vscode-java-pack",
+        "vmware.vscode-spring-boot",
+        "redhat.vscode-xml",
+        "vscjava.vscode-lombok"
+      ]
+    }
+  },
+  "runServices": ["database", "frontend"]
+}
