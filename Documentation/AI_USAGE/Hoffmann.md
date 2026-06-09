@@ -399,3 +399,116 @@ Jede Methode gibt nach `.then(r => r.data)` direkt den typisierten Payload zurü
 **Goal:** Produce a structured markdown record of the session for the project's AI usage log.
 
 **Result:** This file.
+
+---
+
+## Session — 2026-06-09 (Tuesday)
+
+**Model:** GPT-5 (OpenAI Codex)
+**Interface:** ChatGPT Codex agent (Codex desktop app)
+**Project context:** Vue 3 / Ionic hotel booking app — User Story 4: book a hotel room
+
+---
+
+### Prompt 1
+
+> *"today i want you to develop the booking feature FRONTEND with me. the backend will be developed in another branch, but we will implement booking endpoint, model, store aswell as the form today. the booking form is at the place where the availability check routs to rooms/:id/book currently. make sure to adhere to our current styles and try to resuse existing components if possible. while building the new page try to extract resuseable components if they are necessary. we have extensive documentation of our API specs under Documentation/API_specification.md*
+>
+> *here is the ticket discription for that user story:*
+>
+> *U4: Book a Hotel Room*
+> *As a guest I want to book a selected room for a selected period in*
+> *order to have accommodation during my holiday .*
+> *Details*
+> *An API endpoint is available to create a booking for a room. Details can be found in the*
+> *API documentation.*
+> *Once the user has found an available room, they should be able to book it. The following*
+> *data must be provided:*
+> *First name*
+> *Last name*
+> *Valid email address*
+> *Confirm email address*
+> *Breakfast yes / no*
+> *Before final submission, the user should have the opportunity to review their booking*
+> *details (including the booking period and room selection) and make changes if necessary.*
+> *After a successful booking, a confirmation must be shown to the user.*
+>
+> *Definition of Done*
+> *The user can book a desired room for a desired period by providing complete and*
+> *correct data, provided the room is available*
+> *Possible error cases are handled and the user is informed accordingly*
+> *The user can review their data before submitting*
+> *The user receives a confirmation after a successful booking"*
+
+**Goal:** Implement the frontend part of the booking feature end-to-end while the backend is being developed separately.
+
+**Description:** Codex inspected the current Vue/Ionic project structure, existing booking placeholder, availability flow, room store, API layer, and `Documentation/API_specification.md`. The implementation needed to preserve the existing Options API style, reuse existing components such as `PaddedPageTemplate`, `BackButton`, `RoomInfoPanel`, and `PeriodSummary`, and add only small reusable components where they made sense.
+
+**Result:**
+- Added booking domain types in `Frontend/src/models/booking.model.ts`
+- Added `BookingApi.create()` for `POST /bookings` in `Frontend/src/api/endpoints/booking.endpoints.ts`
+- Added `useBookingStore()` with `currentBooking`, loading state, error state, and `createBooking()` action
+- Replaced the old "Buchung kommt bald" placeholder in `BookingView.vue` with a real booking flow
+- Booking page now reads `roomId` from `/rooms/:id/book` and booking period from `from` / `to` query params
+- Availability page now forwards the checked period to the booking page through query params
+- Added frontend validation for first name, last name, email format, email confirmation, and date-period validity
+- Added a two-step flow: form first, then review before submitting
+- Added success confirmation after a successful booking response
+- Added API error display for failed booking attempts
+- Added `BookingSummaryList.vue` as a reusable summary-list component
+- Fixed an existing availability-result issue where unavailable results were not rendered because the template only displayed truthy availability values
+
+**Verification:**
+- `node node_modules/vue-tsc/bin/vue-tsc.js --noEmit` passed
+- `npm run build` was attempted but failed because the local `node_modules/.bin/vue-tsc.cmd` shim was missing in this environment
+- Containerized build was intentionally left to the project owner
+
+---
+
+### Prompt 2
+
+> *"i have this setup running containerized, i will do the building etc myself"*
+
+**Goal:** Stop trying to run the production build locally and leave container-specific verification to the user.
+
+**Description:** Codex had tried to run the frontend build after type checking. Since the project is run inside containers locally by the user, the production build and runtime verification were explicitly left to the user's container setup.
+
+**Result:**
+- No additional code changes
+- Verification status documented as direct Vue typecheck only
+- Containerized build/run was not performed by Codex
+
+---
+
+### Prompt 3
+
+> *"look good so far but i want you to adapt the design of the "Buchung prüfen" component to be much more akin to our clickdummy. i appended the html of our clickdummy but you dont have to copy it strictly. it is more important to keep reusing already implemented logic & components but i do want you to make it so it has those 4 cards: room details, booking details, personal data, price summary and at the bottom the buttons are fine."*
+
+**Goal:** Redesign only the review step of the booking flow so it visually matches the clickdummy more closely.
+
+**Description:** Codex read the pasted clickdummy HTML and used it as design guidance rather than copying it directly. The existing booking logic, API integration, store usage, validation, and submit behavior were kept intact. The review step was changed from one compact summary list into a stacked card layout.
+
+**Result:**
+- Added reusable `BookingReviewCard.vue` component with title and optional "Ändern" action
+- Reworked the `Buchung prüfen` step into four cards:
+  - `Zimmerdetails` with room image, title, description, and existing `RoomFeatureList`
+  - `Buchungszeitraum` with long-form arrival date, departure date, and stay duration
+  - `Persönliche Daten` with guest name, email, and breakfast choice
+  - `Preiszusammenfassung` with estimated room subtotal, breakfast subtotal, and total
+- Kept the existing bottom action buttons: edit data and submit booking
+- Added helper computed values for room image, room extras, nights text, breakfast days, estimated subtotal, and total price
+- Avoided duplicating the `RoomInfoPanel` on the review screen; it remains visible on the form step only
+
+**Verification:**
+- `node node_modules/vue-tsc/bin/vue-tsc.js --noEmit` passed
+- `git diff --check` passed
+
+---
+
+### Prompt 4
+
+> *"document our chat into AI_USAGE/Hoffmann.md as a new entry. try to mimic the format of the other entries"*
+
+**Goal:** Add a new AI usage entry for the booking-feature session to `Documentation/AI_USAGE/Hoffmann.md`.
+
+**Result:** This entry was appended to the existing Hoffmann AI usage log.

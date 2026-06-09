@@ -116,7 +116,7 @@
           <p v-if="roomStore.error" class="api-error">{{ roomStore.error }}</p>
 
           <availability-result
-              v-if="roomStore.isAvailable && lastCheckedPeriod"
+              v-if="roomStore.isAvailable !== null && lastCheckedPeriod"
               :available="roomStore.isAvailable"
               :period="lastCheckedPeriod"
               @book="goToBooking"
@@ -291,7 +291,15 @@ export default defineComponent({
   },
   methods: {
     goToBooking() {
-      this.$router.push(`/rooms/${this.roomId}/book`)
+      if (!this.lastCheckedPeriod) return
+
+      this.$router.push({
+        path: `/rooms/${this.roomId}/book`,
+        query: {
+          from: this.lastCheckedPeriod.from,
+          to: this.lastCheckedPeriod.to,
+        },
+      })
     },
 
     setPeriodMode(mode: PeriodInputMode): void {
