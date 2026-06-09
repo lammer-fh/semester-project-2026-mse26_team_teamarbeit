@@ -91,7 +91,6 @@
               Buchung drucken
             </ion-button>
           </div>
-
         </article>
 
         <form v-else-if="step === 'form'" class="booking-panel" @submit.prevent="reviewBooking">
@@ -482,9 +481,35 @@ export default defineComponent({
       }))
     },
   },
+  watch: {
+    '$route.params.id'(newId: string) {
+      this.roomId = newId ?? ''
+      this.from = getQueryValue(this.$route.query.from)
+      this.to = getQueryValue(this.$route.query.to)
+      this.roomStore.clearCurrentRoom()
+      this.resetState()
+      if (this.roomId) {
+        this.roomStore.fetchRoomById(this.roomId)
+      }
+    },
+  },
   methods: {
     printBooking(): void {
       window.print()
+    },
+
+    resetState(): void {
+      this.step = 'form'
+      this.isConfirmed = false
+      this.form = {
+        firstName: '',
+        lastName: '',
+        email: '',
+        confirmEmail: '',
+        breakfast: false,
+      }
+      this.validationErrors = {}
+      this.bookingStore.clear()
     },
 
     goToRoomDetails(): void {
@@ -536,7 +561,7 @@ export default defineComponent({
     async submitBooking(): Promise<void> {
       if (!this.hasValidPeriod || !this.roomId) return
 
-      let booking = await this.bookingStore.createBooking({
+      const booking = await this.bookingStore.createBooking({
         roomId: this.roomId,
         from: this.from,
         to: this.to,
@@ -586,7 +611,7 @@ export default defineComponent({
     this.from = getQueryValue(this.$route.query.from)
     this.to = getQueryValue(this.$route.query.to)
     this.roomStore.clearCurrentRoom()
-    this.bookingStore.clear()
+    this.resetState()
 
     if (this.roomId) {
       await this.roomStore.fetchRoomById(this.roomId)
