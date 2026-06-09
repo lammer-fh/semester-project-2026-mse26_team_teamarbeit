@@ -17,7 +17,7 @@
 
         <article v-if="isConfirmed && bookingStore.currentBooking" class="booking-panel confirmation-layout">
 
-          <section class="confirmation-hero">
+          <div class="confirmation-hero">
             <div class="confirmation-icon-wrap">
               <ion-icon :icon="checkmarkCircleOutline" class="confirmation-icon" aria-hidden="true" />
             </div>
@@ -26,7 +26,7 @@
               Vielen Dank für Ihre Buchung. Eine Bestätigung wurde an
               <strong>{{ form.email }}</strong> gesendet.
             </p>
-          </section>
+          </div>
 
           <div class="booking-number-card">
             <p class="booking-number-label">Ihre Buchungsnummer</p>
@@ -81,6 +81,24 @@
                 <ion-icon :icon="mailOutline" aria-hidden="true" />
                 <span><small>E-Mail</small>info@hotel-technikum.at</span>
               </a>
+            </div>
+          </div>
+
+          <div class="confirmation-section">
+            <h3 class="confirmation-section-title">Anfahrt</h3>
+            <div class="map-wrap">
+              <iframe
+                  title="Hotelstandort"
+                  src="https://www.openstreetmap.org/export/embed.html?bbox=16.364%2C48.221%2C16.374%2C48.231&layer=mapnik&marker=48.2258%2C16.3694"
+                  class="map-frame"
+                  loading="lazy"
+              />
+            </div>
+            <div class="review-text-list">
+              <p><strong>Adresse:</strong> Höchstädtplatz 6, 1200 Wien</p>
+              <p><strong>U-Bahn:</strong> U6 bis Dresdner Straße (5 Min. Fußweg)</p>
+              <p><strong>Straßenbahn:</strong> Linie 2 bis Höchstädtplatz</p>
+              <p><strong>Vom Hauptbahnhof:</strong> ca. 35 Min. mit öffentlichen Verkehrsmitteln</p>
             </div>
           </div>
 
@@ -985,6 +1003,25 @@ ion-toggle {
 
   .period-card ion-button {
     justify-self: start;
+  }
+}
+
+.map-wrap {
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #e2d8cc;
+}
+
+.map-frame {
+  width: 100%;
+  height: 260px;
+  border: none;
+  display: block;
+}
+
+@media print {
+  .map-frame {
+    display: none;
   }
 }
 </style>

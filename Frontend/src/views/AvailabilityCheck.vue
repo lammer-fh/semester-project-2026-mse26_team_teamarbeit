@@ -193,7 +193,7 @@ const createPeriodPresets = (): PeriodPreset[] => {
     {
       id: 'weekend',
       label: 'Wochenende',
-      description: 'Drei Nächte fuer einen kurzen Aufenthalt.',
+      description: 'Drei Nächte für einen kurzen Aufenthalt.',
       period: createPeriodFromNights(toDateOnly(start), 3),
     },
     {
