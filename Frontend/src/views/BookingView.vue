@@ -393,7 +393,33 @@ export default defineComponent({
       }))
     },
   },
+  watch: {
+    '$route.params.id'(newId: string) {
+      this.roomId = newId ?? ''
+      this.from = getQueryValue(this.$route.query.from)
+      this.to = getQueryValue(this.$route.query.to)
+      this.roomStore.clearCurrentRoom()
+      this.resetState()
+      if (this.roomId) {
+        this.roomStore.fetchRoomById(this.roomId)
+      }
+    },
+  },
   methods: {
+    resetState(): void {
+      this.step = 'form'
+      this.isConfirmed = false
+      this.form = {
+        firstName: '',
+        lastName: '',
+        email: '',
+        confirmEmail: '',
+        breakfast: false,
+      }
+      this.validationErrors = {}
+      this.bookingStore.clear()
+    },
+
     goToRoomDetails(): void {
       this.$router.push(`/rooms/${this.roomId}`)
     },
@@ -493,7 +519,7 @@ export default defineComponent({
     this.from = getQueryValue(this.$route.query.from)
     this.to = getQueryValue(this.$route.query.to)
     this.roomStore.clearCurrentRoom()
-    this.bookingStore.clear()
+    this.resetState()
 
     if (this.roomId) {
       await this.roomStore.fetchRoomById(this.roomId)
