@@ -2,6 +2,8 @@ package team_teamarbeit.backend.dto;
 
 import java.time.LocalDate;
 import java.util.UUID;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.Email;
@@ -27,11 +29,16 @@ public class BookRoomRequestDto {
     @Valid
     private GuestRequestDto guest;
 
+
+    @JsonIgnore
+    @Schema(hidden = true)
     @AssertTrue(message = "Either userId or guest is required")
     public boolean isGuestInformationPresent() {
         return userId != null || guest != null;
     }
 
+    @JsonIgnore
+    @Schema(hidden = true)
     @AssertTrue(message = "from may not be in the past and to must be after from")
     public boolean isDateRangeValid() {
         return from == null || to == null
