@@ -592,3 +592,42 @@ Jede Methode gibt nach `.then(r => r.data)` direkt den typisierten Payload zurü
 
 **Verification:**
 - Visual output confirmed against clickdummy and live rendered DOM snapshot provided by user
+
+---
+
+## Session — 2026-06-10 (Wednesday)
+
+**Model:** Claude Sonnet 4.6 (claude.ai)
+**Interface:** Claude web chat
+**Project context:** Vue 3 / Ionic hotel booking app — User Story 5: improve booking confirmation screen (continued)
+
+---
+
+### Prompt 1
+
+> *"when a booking is done and we navigate to book another room the page still has the old booking confirmation showing. i would say it would be best if we just reset the data state of that booking page to its initial form page if it is being reached again"*
+
+**Goal:** Fix stale confirmation state persisting when navigating to a new room booking.
+
+**Description:** Vue Router reuses the component instance when navigating between routes of the same type, meaning `mounted()` does not fire again and `isConfirmed`, `step`, and `form` retained their values from the previous booking. A `resetState()` method was extracted to centralise the reset logic, and a `watch` on `$route.params.id` was added to trigger a full reset and room refetch whenever the user lands on the booking page for a different room. `mounted()` was updated to call `resetState()` instead of manually calling `bookingStore.clear()`.
+
+**Result:**
+- Added `resetState()` method resetting `step`, `isConfirmed`, `form`, `validationErrors`, and `bookingStore`
+- Replaced manual `bookingStore.clear()` call in `mounted()` with `resetState()`
+- Added `watch: { '$route.params.id' }` block that calls `resetState()` and re-fetches the room on route param change
+
+---
+
+### Prompt 2
+
+> *"i have checked the requirements for delivery again [...] how easy it would be to include some google maps plugin for a fixed address?"*
+
+**Goal:** Research and decide on a directions/map implementation to satisfy the U5 DoD requirement for a clear outcome on the directions feature.
+
+**Description:** Three options were evaluated: an OpenStreetMap embed iframe (no API key, free, zero setup), a Google Maps Embed API iframe (polished but requires a Google Cloud billing account and API key), and a static deep link to Google Maps (no widget at all). For an academic project context, OpenStreetMap was recommended as the pragmatic choice.
+
+**Result:**
+- Implemented an OpenStreetMap `<iframe>` embed in a new `Anfahrt` confirmation section with a fixed bbox and marker for Höchstädtplatz 6, 1200 Wien
+- Added public transit directions as static text below the map (U6 Dresdner Straße, Linie 2 Höchstädtplatz, journey time from Hauptbahnhof)
+- Added `map-wrap` and `map-frame` CSS with a `@media print` rule hiding the iframe when printing
+- **Directions decision documented:** OpenStreetMap Embed chosen over Google Maps Embed API to avoid billing setup and API key management in an academic context; satisfies the U5 requirement for a clear outcome on the directions feature
