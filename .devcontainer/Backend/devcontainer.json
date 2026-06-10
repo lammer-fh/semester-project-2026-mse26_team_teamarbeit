@@ -1,12 +1,10 @@
 {
   "name": "Backend Dev Container",
-  "dockerComposeFile": [
-    "../../compose.dev.yml"
-  ],
-  "service": "dev-backend",
   "workspaceFolder": "/workspace/Backend",
   "workspaceMount": "src=${localWorkspaceFolder},dst=/workspace,type=bind,consistency=cached",
+  "image": "mcr.microsoft.com/devcontainers/java:1-21-bookworm",
   "remoteUser": "vscode",
+  "forwardPorts": [8080],
   "customizations": {
     "vscode": {
       "settings": {
@@ -21,5 +19,8 @@
       ]
     }
   },
-  "runServices": ["dev-frontend"]
+  "containerEnv": {
+    "SPRING_PROFILES_ACTIVE": "dev"
+  },
+  "runArgs": ["--name", "devcontainer-backend"]
 }
