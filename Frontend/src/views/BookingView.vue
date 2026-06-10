@@ -15,23 +15,98 @@
           :is-loading="roomStore.isLoading"
         />
 
-        <article v-if="isConfirmed && bookingStore.currentBooking" class="booking-panel confirmation-panel">
-          <ion-icon :icon="checkmarkCircleOutline" class="confirmation-icon" aria-hidden="true" />
-          <div>
-            <p class="eyebrow">Buchung bestätigt</p>
-            <h2>Vielen Dank, {{ form.firstName }}!</h2>
-            <p class="confirmation-copy">
-              Ihre Buchung wurde erfolgreich erstellt. Die Buchungsnummer lautet
-              <strong>{{ bookingStore.currentBooking.id }}</strong>.
+        <article v-if="isConfirmed && bookingStore.currentBooking" class="booking-panel confirmation-layout">
+
+          <div class="confirmation-hero">
+            <div class="confirmation-icon-wrap">
+              <ion-icon :icon="checkmarkCircleOutline" class="confirmation-icon" aria-hidden="true" />
+            </div>
+            <h2 class="confirmation-title">Buchung erfolgreich!</h2>
+            <p class="confirmation-subtitle">
+              Vielen Dank für Ihre Buchung. Eine Bestätigung wurde an
+              <strong>{{ form.email }}</strong> gesendet.
             </p>
           </div>
 
-          <BookingSummaryList :items="confirmationSummaryItems" />
+          <div class="booking-number-card">
+            <p class="booking-number-label">Ihre Buchungsnummer</p>
+            <p class="booking-number-value">{{ bookingStore.currentBooking.id }}</p>
+          </div>
+
+          <div class="confirmation-section">
+            <h3 class="confirmation-section-title">Buchungsdetails</h3>
+            <div class="review-room">
+              <img
+                  v-if="reviewRoomImage"
+                  :src="reviewRoomImage"
+                  :alt="roomStore.currentRoom?.name ?? 'Zimmer'"
+                  class="review-room-image"
+              />
+              <div v-else class="review-room-fallback">
+                <ion-icon :icon="bedOutline" aria-hidden="true" />
+              </div>
+              <div class="review-room-content">
+                <h4>{{ roomStore.currentRoom?.name ?? 'Gebuchtes Zimmer' }}</h4>
+                <p>{{ roomStore.currentRoom?.description }}</p>
+                <RoomFeatureList v-if="reviewRoomFeatures.length" :features="reviewRoomFeatures" />
+              </div>
+            </div>
+            <div class="confirmation-details-list">
+              <p><strong>Anreise:</strong> {{ formatLongDate(bookingStore.currentBooking.from) }}</p>
+              <p><strong>Abreise:</strong> {{ formatLongDate(bookingStore.currentBooking.to) }}</p>
+              <p><strong>Aufenthaltsdauer:</strong> {{ confirmedNightsText }}</p>
+              <p><strong>Gast:</strong> {{ guestName }}</p>
+              <p><strong>E-Mail:</strong> {{ form.email }}</p>
+              <p><strong>Frühstück:</strong> {{ bookingStore.currentBooking.breakfast ? 'Ja, inklusive' : 'Nein' }}</p>
+            </div>
+          </div>
+
+          <div class="confirmation-section">
+            <h3 class="confirmation-section-title">Check-in Informationen</h3>
+            <div class="review-text-list">
+              <p><strong>Check-in:</strong> ab 15:00 Uhr</p>
+              <p><strong>Check-out:</strong> bis 11:00 Uhr</p>
+              <p>Bitte halten Sie bei Ihrer Ankunft einen gültigen Lichtbildausweis und Ihre Buchungsbestätigung bereit.</p>
+            </div>
+          </div>
+
+          <div class="confirmation-section">
+            <h3 class="confirmation-section-title">Kontakt</h3>
+            <div class="contact-option-grid">
+              <a href="tel:+43133340031" class="contact-option">
+                <ion-icon :icon="callOutline" aria-hidden="true" />
+                <span><small>Telefon</small>+43 1 333 40 31</span>
+              </a>
+              <a href="mailto:info@hotel-technikum.at" class="contact-option">
+                <ion-icon :icon="mailOutline" aria-hidden="true" />
+                <span><small>E-Mail</small>info@hotel-technikum.at</span>
+              </a>
+            </div>
+          </div>
+
+          <div class="confirmation-section">
+            <h3 class="confirmation-section-title">Anfahrt</h3>
+            <div class="map-wrap">
+              <iframe
+                  title="Hotelstandort"
+                  src="https://www.openstreetmap.org/export/embed.html?bbox=16.364%2C48.221%2C16.374%2C48.231&layer=mapnik&marker=48.2258%2C16.3694"
+                  class="map-frame"
+                  loading="lazy"
+              />
+            </div>
+            <div class="review-text-list">
+              <p><strong>Adresse:</strong> Höchstädtplatz 6, 1200 Wien</p>
+              <p><strong>U-Bahn:</strong> U6 bis Dresdner Straße (5 Min. Fußweg)</p>
+              <p><strong>Straßenbahn:</strong> Linie 2 bis Höchstädtplatz</p>
+              <p><strong>Vom Hauptbahnhof:</strong> ca. 35 Min. mit öffentlichen Verkehrsmitteln</p>
+            </div>
+          </div>
 
           <div class="panel-actions">
-            <ion-button router-link="/rooms" expand="block">Weitere Zimmer ansehen</ion-button>
-            <ion-button :router-link="`/rooms/${roomId}`" fill="outline" expand="block">
-              Zurück zum Zimmer
+            <ion-button router-link="/home" expand="block">Zur Startseite</ion-button>
+            <ion-button fill="outline" expand="block" @click="printBooking">
+              <ion-icon :icon="printOutline" slot="start" aria-hidden="true" />
+              Buchung drucken
             </ion-button>
           </div>
         </article>
@@ -183,7 +258,14 @@
             </BookingReviewCard>
           </div>
 
-          <p v-if="bookingStore.error" class="api-error">{{ bookingStore.error }}</p>
+          <div v-if="bookingStore.error" class="booking-error-card">
+            <ion-icon :icon="alertCircleOutline" aria-hidden="true" />
+            <div>
+              <h3>Buchung fehlgeschlagen</h3>
+              <p>{{ bookingStore.error }}</p>
+              <p>Bitte prüfen Sie Ihre Angaben oder versuchen Sie es später erneut. Unser Team hilft Ihnen auch direkt per Telefon weiter.</p>
+            </div>
+          </div>
 
           <div class="panel-actions">
             <ion-button type="button" fill="outline" expand="block" @click="step = 'form'">
@@ -214,7 +296,17 @@ import {
   IonSpinner,
   IonToggle,
 } from '@ionic/vue'
-import { bedOutline, checkmarkCircleOutline } from 'ionicons/icons'
+import {
+  alertCircleOutline,
+  bedOutline,
+  callOutline,
+  checkmarkCircleOutline,
+  locationOutline,
+  mailOutline,
+  printOutline,
+  timeOutline,
+  trainOutline,
+} from 'ionicons/icons'
 import PaddedPageTemplate from '@/components/templates/PaddedPageTemplate.vue'
 import BackButton from '@/components/molecules/BackButton.vue'
 import PeriodSummary from '@/components/molecules/PeriodSummary.vue'
@@ -289,8 +381,15 @@ export default defineComponent({
   },
   data() {
     return {
+      alertCircleOutline,
       bedOutline,
+      callOutline,
       checkmarkCircleOutline,
+      locationOutline,
+      mailOutline,
+      printOutline,
+      timeOutline,
+      trainOutline,
       roomId: '',
       from: '',
       to: '',
@@ -307,6 +406,13 @@ export default defineComponent({
     }
   },
   computed: {
+    confirmedNightsText(): string {
+      const duration = this.bookingStore.currentBooking?.duration
+      if (!duration) return this.nightsText
+      const label = duration === 1 ? 'Nacht' : 'Nächte'
+      return `${duration} ${label}`
+    },
+
     hasValidPeriod(): boolean {
       return Boolean(this.from && this.to && this.from >= getMinimumArrivalDate() && this.to > this.from)
     },
@@ -406,6 +512,10 @@ export default defineComponent({
     },
   },
   methods: {
+    printBooking(): void {
+      window.print()
+    },
+
     resetState(): void {
       this.step = 'form'
       this.isConfirmed = false
@@ -529,6 +639,149 @@ export default defineComponent({
 </script>
 
 <style scoped>
+
+.confirmation-layout {
+  gap: 24px;
+}
+
+.confirmation-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 14px;
+}
+
+.confirmation-icon-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: #dcfce7;
+}
+
+.confirmation-icon {
+  width: 48px;
+  height: 48px;
+  color: #16a34a;
+}
+
+.confirmation-title {
+  margin: 0;
+  font-size: 1.9rem;
+  font-weight: 800;
+  color: #1c1917;
+}
+
+.confirmation-subtitle {
+  margin: 0;
+  color: #57534e;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.booking-number-card {
+  padding: 22px;
+  border: 1px solid #fcd34d;
+  border-radius: 10px;
+  background: #fffbeb;
+  text-align: center;
+}
+
+.booking-number-label {
+  margin: 0 0 6px;
+  color: #78716c;
+  font-size: 0.88rem;
+}
+
+.booking-number-value {
+  margin: 0;
+  color: #b45309;
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+}
+
+.confirmation-section {
+  display: grid;
+  gap: 16px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(72, 62, 51, 0.1);
+}
+
+.confirmation-section-title {
+  margin: 0;
+  color: #1c1917;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.confirmation-details-list {
+  display: grid;
+  gap: 10px;
+  padding-top: 16px;
+  border-top: 1px solid #e2d8cc;
+}
+
+.confirmation-details-list p {
+  margin: 0;
+  color: #57534e;
+  line-height: 1.6;
+}
+
+.confirmation-details-list strong {
+  color: #2e2923;
+}
+
+.contact-option-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.contact-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid #e2d8cc;
+  border-radius: 8px;
+  color: #2e2923;
+  text-decoration: none;
+  transition: background 0.15s;
+}
+
+.contact-option:hover {
+  background: #f5f0ea;
+}
+
+.contact-option ion-icon {
+  width: 22px;
+  height: 22px;
+  color: #b45309;
+  flex-shrink: 0;
+}
+
+.contact-option span {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 0.95rem;
+}
+
+.contact-option small {
+  color: #78716c;
+  font-size: 0.78rem;
+}
+
+@media (max-width: 480px) {
+  .contact-option-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 .booking-container {
   width: 100%;
   max-width: 1040px;
@@ -734,10 +987,6 @@ ion-toggle {
   font-weight: 900;
 }
 
-.confirmation-panel {
-  align-content: start;
-}
-
 .confirmation-icon {
   width: 52px;
   height: 52px;
@@ -754,6 +1003,25 @@ ion-toggle {
 
   .period-card ion-button {
     justify-self: start;
+  }
+}
+
+.map-wrap {
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #e2d8cc;
+}
+
+.map-frame {
+  width: 100%;
+  height: 260px;
+  border: none;
+  display: block;
+}
+
+@media print {
+  .map-frame {
+    display: none;
   }
 }
 </style>

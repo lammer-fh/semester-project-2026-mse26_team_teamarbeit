@@ -512,3 +512,122 @@ Jede Methode gibt nach `.then(r => r.data)` direkt den typisierten Payload zurü
 **Goal:** Add a new AI usage entry for the booking-feature session to `Documentation/AI_USAGE/Hoffmann.md`.
 
 **Result:** This entry was appended to the existing Hoffmann AI usage log.
+
+---
+
+## Session — 2026-06-09 (Tuesday)
+
+**Model:** GPT-5 (OpenAI Codex) → Claude Sonnet 4.6 (claude.ai)
+**Interface:** ChatGPT Codex agent (Codex desktop app) → Claude web chat
+**Project context:** Vue 3 / Ionic hotel booking app — User Story 5: improve booking confirmation screen
+
+---
+
+### Prompt 1 (Codex)
+
+> *"okay we are doing the next & final user story for our app; the booking confirmation screen. the backend is still in development, so we will again be focusing purely on frontend. here is the user story text: U5: Improve Booking Confirmation As a guest I want to be informed after the booking whether it was successful or failed in order to know whether I can complete my process or whether further steps are required. Details The booking confirmation introduced in U4 should be extended to provide the user with comprehensive information about all details and to make arrival and check-in easier. The following booking details should be displayed: The booking period The hotel room including image, title, extras, and description The user's submitted personal data Directions to the hotel and any additional relevant information (e.g. train connections) Contact options"*
+
+**Goal:** Extend the post-booking confirmation state in `BookingView.vue` to display comprehensive booking details, arrival info, directions, and contact options.
+
+**Description:** Codex read the existing `BookingView.vue` and related components to understand the current confirmation state. It identified that the existing confirmation was minimal — just a success message and a summary list — and planned to replace the success state with a full confirmation screen covering all U5 requirements while leaving the form and review steps untouched. Codex ran into encoding issues when attempting to apply patches using German text as anchors, worked around them with smaller structural anchors, and partially completed the confirmation state expansion before hitting its weekly usage limit mid-session.
+
+**Result:**
+- Partial expansion of the confirmation state in `BookingView.vue` (+118 / -15 lines at cutoff)
+- Success header, booking period, room details, personal data, arrival/check-in, directions, and contact sections were in progress
+- Session ended abruptly — the file was left in a broken state with TypeScript build errors
+
+**Verification:**
+- Build was not verified — Codex ran out of tokens before completing or type-checking
+
+---
+
+### Prompt 2 (Claude)
+
+> *"im having trouble building my vue3 project after codex has done some changes and decided it is out of tokens for the week. would be cool if you could check this file for anything that would make a strict build fail"*
+
+**Goal:** Identify and fix all TypeScript build errors introduced by the incomplete Codex session.
+
+**Description:** Claude inspected the `BookingView.vue` file and the `docker compose` / `npm run build` error output. Two categories of errors were found: six icon names used in the template (`timeOutline`, `locationOutline`, `trainOutline`, `callOutline`, `mailOutline`, `alertCircleOutline`) that were never imported from `ionicons/icons` or exposed via `data()`, and one computed property (`confirmedNightsText`) referenced in the confirmation template that did not exist anywhere in the component.
+
+**Result:**
+- Added all six missing icons to the `ionicons/icons` import and the `data()` return
+- Added `confirmedNightsText` computed property, deriving its value from `bookingStore.currentBooking.duration` with singular/plural label handling
+- Build passed successfully after changes
+
+---
+
+### Prompt 3 (Claude)
+
+> *"the backend just delivers 404 on the endpoint for now [...] wanted to test it without the api resolving [...] dont want to make too big of a change to the page itself"*
+
+**Goal:** Enable the confirmation screen to be tested locally without a working backend.
+
+**Description:** A minimal dev-only mock was added inside `submitBooking()` gated behind `import.meta.env.DEV`. When the real API call returns `null` (e.g. due to a 404), the mock directly assigns a synthetic booking object to `bookingStore.currentBooking` and `bookingStore.error`, bypassing `$patch` since the store uses the Pinia setup/composition style with plain `ref` values rather than the options style.
+
+**Result:**
+- Added a `DEV`-gated fallback in `submitBooking()` that populates the store with a mock booking (`id: 'DEV-PREVIEW'`) using direct ref assignment
+- No template changes required
+- Mock cannot run in production builds
+
+---
+
+### Prompt 4 (Claude)
+
+> *"would be great if we can emulate this confirmation page of my clickdummy [...] should be looking much more like that, except that we ditch the whole google maps block with anfahrt for now"*
+
+**Goal:** Redesign the confirmation screen to match the clickdummy visually.
+
+**Description:** Claude compared the existing confirmation markup against the provided clickdummy HTML. The confirmation `article` was missing the `booking-panel` class, causing it to render as an unstyled bare grid rather than matching the padded/bordered card used by the form and review steps. The nested `BookingReviewCard` components were also creating a card-inside-card visual that did not match the flat single-card design of the other steps.
+
+**Result:**
+- Added `booking-panel` class to the confirmation `article` so all three steps share the same outer card appearance
+- Replaced nested `BookingReviewCard` components with inline `confirmation-section` divs separated by `border-top` dividers
+- Added a centered success hero with a green circular icon, large title, and subtitle
+- Added a highlighted booking number card styled in amber consistent with the clickdummy
+- Replaced the old action buttons with "Zur Startseite" (primary) and "Buchung drucken" (outline with print icon)
+- Added `printOutline` icon import and `printBooking()` method calling `window.print()`
+- Added `confirmation-section`, `confirmation-section-title`, `booking-number-card`, and related CSS rules
+- Removed dead `.confirmation-panel` CSS selector left over from the U4 session
+- Directions/map block was intentionally omitted per request
+
+**Verification:**
+- Visual output confirmed against clickdummy and live rendered DOM snapshot provided by user
+
+---
+
+## Session — 2026-06-10 (Wednesday)
+
+**Model:** Claude Sonnet 4.6 (claude.ai)
+**Interface:** Claude web chat
+**Project context:** Vue 3 / Ionic hotel booking app — User Story 5: improve booking confirmation screen (continued)
+
+---
+
+### Prompt 1
+
+> *"when a booking is done and we navigate to book another room the page still has the old booking confirmation showing. i would say it would be best if we just reset the data state of that booking page to its initial form page if it is being reached again"*
+
+**Goal:** Fix stale confirmation state persisting when navigating to a new room booking.
+
+**Description:** Vue Router reuses the component instance when navigating between routes of the same type, meaning `mounted()` does not fire again and `isConfirmed`, `step`, and `form` retained their values from the previous booking. A `resetState()` method was extracted to centralise the reset logic, and a `watch` on `$route.params.id` was added to trigger a full reset and room refetch whenever the user lands on the booking page for a different room. `mounted()` was updated to call `resetState()` instead of manually calling `bookingStore.clear()`.
+
+**Result:**
+- Added `resetState()` method resetting `step`, `isConfirmed`, `form`, `validationErrors`, and `bookingStore`
+- Replaced manual `bookingStore.clear()` call in `mounted()` with `resetState()`
+- Added `watch: { '$route.params.id' }` block that calls `resetState()` and re-fetches the room on route param change
+
+---
+
+### Prompt 2
+
+> *"i have checked the requirements for delivery again [...] how easy it would be to include some google maps plugin for a fixed address?"*
+
+**Goal:** Research and decide on a directions/map implementation to satisfy the U5 DoD requirement for a clear outcome on the directions feature.
+
+**Description:** Three options were evaluated: an OpenStreetMap embed iframe (no API key, free, zero setup), a Google Maps Embed API iframe (polished but requires a Google Cloud billing account and API key), and a static deep link to Google Maps (no widget at all). For an academic project context, OpenStreetMap was recommended as the pragmatic choice.
+
+**Result:**
+- Implemented an OpenStreetMap `<iframe>` embed in a new `Anfahrt` confirmation section with a fixed bbox and marker for Höchstädtplatz 6, 1200 Wien
+- Added public transit directions as static text below the map (U6 Dresdner Straße, Linie 2 Höchstädtplatz, journey time from Hauptbahnhof)
+- Added `map-wrap` and `map-frame` CSS with a `@media print` rule hiding the iframe when printing
+- **Directions decision documented:** OpenStreetMap Embed chosen over Google Maps Embed API to avoid billing setup and API key management in an academic context; satisfies the U5 requirement for a clear outcome on the directions feature

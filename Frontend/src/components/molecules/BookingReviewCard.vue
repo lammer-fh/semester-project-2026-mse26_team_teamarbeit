@@ -1,5 +1,5 @@
 <template>
-  <section class="review-card">
+  <div class="review-card">
     <div class="review-card-header">
       <h3>{{ title }}</h3>
       <ion-button
@@ -16,7 +16,7 @@
     </div>
 
     <slot />
-  </section>
+  </div>
 </template>
 
 <script setup lang="ts">
