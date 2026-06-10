@@ -451,3 +451,292 @@ Der KI-generierte Figma-Make-Prompt wurde somit als Grundlage verwendet, um schn
 
 **Eigenleistung:** Architektur-Entscheidungen (Atomic Design Anforderung), UX-Anforderungen (Mobile-First, Burger vs. Horizontal Nav), Code-Review und Testing im Browser, Bugfinding und Fehlerbeschreibung.
 
+
+# Allgemeine Erklärungen im Backend (Java/SpringBoot)
+
+## Session vom 09.06.2026: 
+
+Da ich zuvor noch nie mit Java/Spring Boot gearbeitet habe, habe ich den bereits von
+meinen Kollegen erstellten Code Analysieren und erklären lassen, damit ich dann selbstständig die Backend-Route Book Room erstellen kann.
+
+## Prompt: 
+```text
+Was bewirken diese Annotations und wozu werden diese in Java bzw. SpringBoot verwendet? 
+
+@Entity(name = "Bookings")
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class Booking {
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
+
+    @Column(name = "reference_key", unique = true)
+    private String referenceKey;
+
+    @Column(name = "arrival_date")
+    private LocalDate arrivalDate;
+
+    @Column(name = "departure_date")
+    private LocalDate departureDate;
+
+    @Column(name = "breakfast")
+    private boolean breakfast;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private BookingStatusType status;
+
+    @Column(name = "total_price")
+    private BigDecimal totalPrice;
+
+    @ManyToOne
+    @JoinColumn(name = "guest_id")
+    private Guest guest;
+
+    @ManyToOne
+    @JoinColumn(name = "room_id")
+    private Room room;
+}
+```
+
+## Ergebnis:
+```text
+Annotationen sind Metadaten, die mit @ beginnen. 
+Frameworks wie Spring Boot, Hibernate/JPA und Lombok lesen sie und erzeugen daraus Verhalten oder zusätzlichen Code.
+
+Klassen-Annotationen:
+@Entity(name = "Bookings")
+Markiert die Klasse als JPA-Entity. Hibernate kann Booking-Objekte dadurch in der Datenbank speichern.
+name bezeichnet primär den Entity-Namen für JPQL. Für einen expliziten Tabellennamen wäre normalerweise Folgendes besser:
+
+
+@Entity
+@Table(name = "bookings")
+
+
+@Getter und @Setter
+Lombok generiert Getter und Setter für alle Felder.
+
+@Builder
+Lombok ermöglicht das Builder-Pattern:
+java
+
+Booking booking = Booking.builder()
+    .arrivalDate(LocalDate.now())
+    .breakfast(true)
+    .build();
+
+@NoArgsConstructor
+Erzeugt einen Konstruktor ohne Parameter. JPA benötigt diesen, um Entities zu erstellen.
+
+@AllArgsConstructor
+Erzeugt einen Konstruktor, der alle Felder als Parameter erwartet.
+
+Datenbank-Annotationen:
+
+@Id
+Markiert id als Primärschlüssel der Entity.
+
+@GeneratedValue(strategy = GenerationType.UUID)
+Hibernate erzeugt beim Speichern automatisch eine UUID.
+
+Column(name = "...")
+Legt fest, welcher Datenbankspalte das Java-Feld entspricht:
+java
+
+private LocalDate arrivalDate;
+
+wird beispielsweise auf arrival_date abgebildet.
+
+@Column(unique = true)
+Erstellt eine Eindeutigkeitsbedingung. Zwei Buchungen dürfen nicht denselben reference_key haben.
+
+@Enumerated(EnumType.STRING)
+Speichert den Enum als lesbaren Text, beispielsweise:
+
+CONFIRMED
+
+Ohne diese Einstellung könnte der Enum als Zahl gespeichert werden, was bei Änderungen an der Enum-Reihenfolge problematisch wäre.
+
+Beziehungen
+@ManyToOne
+Definiert eine Viele-zu-eins-Beziehung. Viele Buchungen können demselben Gast oder Zimmer zugeordnet sein.
+
+@JoinColumn(name = "guest_id")
+Verwendet guest_id als Fremdschlüssel zur Gast-Tabelle.
+
+@JoinColumn(name = "room_id")
+Verwendet room_id als Fremdschlüssel zur Zimmer-Tabelle.
+
+Spring Boot erkennt die Entity beim Start. Hibernate erstellt beziehungsweise aktualisiert anschließend die Tabellenstruktur und übersetzt Repository-Aufrufe in SQL. Lombok reduziert dagegen lediglich den manuell zu schreibenden Java-Code.
+```
+
+## Prompt: 
+
+```text
+Wie funktioniert das Exception handling? bzw wo wird der Exception Handler aufgerufen?
+```
+## Ergebnis
+```text
+Der Exception Handler wird nicht manuell aufgerufen. Spring ruft ihn automatisch auf, sobald eine Exception aus einem Controller beziehungsweise Service bis zur Controller-Schicht hochgereicht wird.
+
+Ablauf:
+
+HTTP Request
+→ BookingController.bookRoom()
+→ BookingService.bookRoom()
+→ Exception wird geworfen
+→ Spring fängt sie ab
+→ passender @ExceptionHandler wird gesucht
+→ HTTP-Fehlerantwort wird erzeugt
+Beispielsweise im Service:
+
+throw new BookingConflictException(
+    "The requested room is not available"
+);
+Die Exception läuft zurück durch den Controller. Wegen @RestControllerAdvice findet Spring automatisch:
+
+@ExceptionHandler(BookingConflictException.class)
+@ResponseStatus(HttpStatus.CONFLICT)
+public ErrorDto handleConflict(BookingConflictException ex) {
+    return new ErrorDto(ex.getMessage());
+}
+Der Handler wird intern vom Spring MVC DispatcherServlet beziehungsweise dessen Exception-Resolver aufgerufen. Der Controller benötigt daher kein try/catch.
+```
+
+## Prompt
+
+```text
+Wie kann ich in Java/Spring Boot in einem Service, der Business Logic beinhaltet, entweder alle Datenbankoperationen ausführen oder keine, wenn eine fehlschlägt?
+```
+
+## Ergebnis
+
+```text
+In Spring Boot machst du das mit Transaktionen, typischerweise über @Transactional.
+
+Damit gilt: Entweder werden alle Datenbankoperationen erfolgreich committed, oder bei einem Fehler wird alles zurückgerollt.
+
+Beispiel:
+
+@Service
+public class OrderService {
+
+    private final OrderRepository orderRepository;
+    private final PaymentRepository paymentRepository;
+
+    public OrderService(
+            OrderRepository orderRepository,
+            PaymentRepository paymentRepository
+    ) {
+        this.orderRepository = orderRepository;
+        this.paymentRepository = paymentRepository;
+    }
+
+    @Transactional
+    public void createOrder(Order order, Payment payment) {
+        orderRepository.save(order);
+
+        paymentRepository.save(payment);
+
+        // Wenn hier oder davor eine RuntimeException fliegt,
+        // werden beide save()-Operationen zurückgerollt.
+    }
+}
+
+Wichtig: @Transactional sollte meistens auf der Service-Methode liegen, nicht auf einzelnen Repository-Methoden. Der Service bildet die Business-Transaktion ab.
+
+Standardmäßig macht Spring einen Rollback bei:
+
+RuntimeException
+Error
+
+Also zum Beispiel:
+
+@Transactional
+public void transferMoney(Account from, Account to, BigDecimal amount) {
+    from.withdraw(amount);
+    to.deposit(amount);
+
+    accountRepository.save(from);
+    accountRepository.save(to);
+
+    if (amount.compareTo(BigDecimal.ZERO) <= 0) {
+        throw new IllegalArgumentException("Amount must be positive");
+    }
+}
+
+Wenn die Exception fliegt, werden beide save()-Operationen nicht dauerhaft gespeichert.
+
+Für checked Exceptions musst du Rollback explizit angeben:
+
+@Transactional(rollbackFor = Exception.class)
+public void doSomething() throws Exception {
+    repository.save(...);
+
+    if (someProblem) {
+        throw new Exception("Fehler");
+    }
+}
+
+Achte außerdem auf diese typischen Stolperfallen:
+
+@Transactional
+public void outerMethod() {
+    innerMethod(); // funktioniert NICHT wie erwartet, wenn innerMethod im selben Service ist
+}
+
+@Transactional
+public void innerMethod() {
+    // ...
+}
+
+@Transactional funktioniert über Spring-Proxies. Ein Methodenaufruf innerhalb derselben Klasse wird daher nicht vom Proxy abgefangen. Lege die Transaktion am besten direkt auf die öffentliche Service-Methode, die von außen aufgerufen wird.
+
+Typisches Muster:
+
+@RestController
+public class OrderController {
+
+    private final OrderService orderService;
+
+    @PostMapping("/orders")
+    public ResponseEntity<Void> createOrder(@RequestBody CreateOrderRequest request) {
+        orderService.createOrder(request);
+        return ResponseEntity.ok().build();
+    }
+}
+@Service
+public class OrderService {
+
+    @Transactional
+    public void createOrder(CreateOrderRequest request) {
+        // Business Logic
+        // mehrere DB-Operationen
+        // bei Fehler: Rollback
+    }
+}
+
+Kurz gesagt: Verwende @Transactional auf deiner Service-Methode, wirf bei Fehlern Exceptions, und fange diese Exceptions nicht innerhalb der Transaktion ab, ohne sie erneut zu werfen.
+```
+
+### Diese Prompts haben mir dabei geholfen die Eigenheiten/Untrerschiede und Gemeinsamkeiten zu mir bereits bekannten Frameworks wie: 
+- ### .NET
+- ### ASP.NET
+- ### EF Core
+
+
+### und weiteren besser zu verstehen. 
+### Dadurch konnte ich bereits bekannte Paradigmen auch in Java/Spring Boot Anwenden, da die Prinzipien dahinter sehr ähnlich sind und sich meistens nur in der Syntax/Art der Implementierung unterscheiden.
+
+# Fazit: 
+
+- ### Besonders gut funktioniert die Verwendung von Generativer KI, wenn man bereits ein sehr klares Bild davon hat, wie das Ergebnis am Ende aussehen soll.
+- ### Vor allem eine ausführliche Spezifikation, aus der man der KI die notwendigen Abschnitte übergeben kann hilft hier sehr. 
+- ### Auch Code Schnipsel, aus ähnlichen Projekten, die man der KI übergibt damit diese sie als Referenz nutzen kann können das Ergebnis deutlich verbessern. 
+- ### Besonders überascht hat mich hier wie gut die Statischen Pages aus dem Figma Make Prototyp von React nach Vue.js "übersetzt" wurden.
