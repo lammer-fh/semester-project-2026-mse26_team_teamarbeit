@@ -1,8 +1,7 @@
 {
   "name": "Frontend Dev Container",
   "dockerComposeFile": [
-    "../../compose.dev.yml",
-    "../../compose.yml"
+    "../../compose.dev.yml"
   ],
   "service": "dev-frontend",
   "workspaceFolder": "/workspace/Frontend",
@@ -26,6 +25,6 @@
       ]
     }
   },
-  "runServices": ["database", "backend"],
+  "runServices": ["dev-backend"],
   "postCreateCommand": "npm install -g npm@latest && npm install -g @ionic/cli && npm install"
 }

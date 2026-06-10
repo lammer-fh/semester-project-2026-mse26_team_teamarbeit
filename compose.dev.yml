@@ -1,7 +1,6 @@
-version: '3.8'
-
-services:      
+services:
   dev-backend:
+    container_name: dev-backend
     image: mcr.microsoft.com/devcontainers/java:1-21-bookworm
     volumes:
       - .:/workspace
@@ -9,25 +8,16 @@ services:
       - "8080:8080"
     user: vscode
     environment:
-      SPRING_PROFILES_ACTIVE: docker
-      SPRING_DATASOURCE_URL: jdbc:mysql://database/hotel_db?allowPublicKeyRetrieval=true&useSSL=false
-      SPRING_DATASOURCE_USERNAME: user
-      SPRING_DATASOURCE_PASSWORD: password
-      SPRING_JPA_HIBERNATE_DDL_AUTO: update
-    depends_on:
-      database:
-        condition: service_healthy
+      SPRING_PROFILES_ACTIVE: dev
     command: sleep infinity
 
   dev-frontend:
-    container_name: frontend
+    container_name: dev-frontend
     image: "mcr.microsoft.com/devcontainers/javascript-node:1-22-bookworm"
     volumes:
       - .:/workspace
     ports:
       - "4173:4173"
-    command: sleep infinity
-
-  frontend:
     environment:
       - BACKEND_URL=http://dev-backend:8080
+    command: sleep infinity

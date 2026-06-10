@@ -5,6 +5,11 @@
 3. Run ```docker compose up --build -d```
    - ```--build``` rebuilds the frontend and backend for each start up, you can omit this if you have no local image of either or if you want to use the existing image
    - ```-d``` starts the containers in detached mode, meaning you can close the console after running the command, without shutting down the containers. You can omit this tag to simply shutdown the containers with the console after you're done using the application.
+
+### IntelliJ
+1. Start Docker
+2. Open the compose.yml file and click on the run arrows next to the root "services" block.
+
 ## Developer Notes
 ### Dev Containers
 This Project is set up to use **Dev Containers** for a better experience between developers on Mac and Windows. The Frontend and Backend use separate Containers to each fit its environment natively.
@@ -19,12 +24,38 @@ This Project is set up to use **Dev Containers** for a better experience between
 3. Wait until Docker initiated the Container and installed all required tools
 4. Now you should be able to develop as if you would normally, but all is done inside the Linux-Container
 #### IntelliJ
-*since i am not using this, i will simply paste the response from copilot here*
-1. Starten Sie Ihre JetBrains-IDE und schließen Sie eventuell geöffnete Projekte, bis Sie den **Welcome Screen** (Willkommensbildschirm) sehen.
-2. Wählen Sie links im Menü **Remote Development** (Remote-Entwicklung) und dann **Dev Containers**.
-3. Klicken Sie auf **New Dev Container** (Neuer Dev-Container).
-4. Unter "**Dev Container from source**" (Dev-Container aus Quelle) wählen Sie den lokalen Pfad zu Ihrem Backend- oder Frontend-Ordner aus, in dem die `devcontainer.json` liegt.
-5. Die IDE baut nun den Container, richtet den integrierten JetBrains Client ein und verbindet sich.
+1. Open the main project folder in IntelliJ, then open the services tab on the bottom left and expand the sections Docker, and select "Dev Containers".
+5. There, click on the "Create Dev Container" button, then select "From Local Project" and in "Path to devcontainer.json", choose the file in "./Backend/.devcontainer". Click on "Ok".
+6. IntelliJ will now ask how to open the project. Select "New Window".
+7. In the new window, expand the "Backend/src/main/java" folder, open the "BackendApplication" file and click on the run button. Selecting Java SDK v21, a Maven project sync and executing the "install" task via the Maven menu on the top right might be required first.
+8. The backend should start up now.
+9. Switch to the main project IntelliJ window and select and select "Dev Containers" under "Docker" in the services tab again.
+10. There, click on the "Create Dev Container" button, then select "From Local Project" and in "Path to devcontainer.json", choose the file in "./Frontend/.devcontainer". Click on "Ok".
+11. IntelliJ will now ask how to open the project. Select "New Window".
+12. In the new window, open the terminal on the bottom left and run "npm run dev". "npm install" might be required first.
+13. The frontend should start up now.
+
+### Regular Docker containers
+#### IntelliJ
+1. Open the main project folder in IntelliJ, then open the compose.dev.yml file.
+3. Click on the run arrows next to the root "services" block.
+4. Afterwards, open the services tab on the bottom left and expand the sections Docker, the project itself and the container "dev-backend".
+5. There, click on the "Open Project" button, then expand the folder "workspace" in the window that pops up and select the "Backend" folder. Click on "Ok".
+6. IntelliJ will now ask how to open the project. Select "New Window".
+7. In the new window, expand the "Backend/src/main/java" folder, open the "BackendApplication" file and click on the run button. A Maven project sync and executing the "install" task via the Maven menu on the top right might be required first.
+8. The backend should start up now.
+9. Switch to the main project IntelliJ window and select the container "dev-frontend" in the services tab.
+10. There, click on the "Open Project" button, then expand the folder "workspace" in the window that pops up and select the "Frontend" folder. Click on "Ok".
+11. IntelliJ will now ask how to open the project. Select "New Window".
+12. In the new window, open the terminal on the bottom left and run "npm run dev". "npm install" might be required first.
+13. The frontend should start up now.
+
+### Frontend URL
+* You can reach the frontend via http://localhost:4173 .
+
+### Backend URLs
+* You can reach the backend HTML API docs via http://localhost:8080/swagger-ui/index.html and the JSON API docs via http://localhost:8080/v3/api-docs .
+* The in-memory H2 database for development can be reached via http://localhost:8080/h2-console . Use the credentials from the application-dev.properties file.
 
 ## Project - Hotel Booking Interface
 ### Context and Background
