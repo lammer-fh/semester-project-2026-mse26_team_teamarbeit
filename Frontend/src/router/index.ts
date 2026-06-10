@@ -21,36 +21,46 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/home',
     name: 'Home',
-    component: HomeView
+    component: HomeView,
+    meta: { title: 'Home' }
   },
   {
     path: '/about',
     name: 'About',
-    component: AboutView
+    component: AboutView,
+    meta: { title: 'Über uns' }
   },
   {
     path: '/rooms',
     name: 'Rooms',
-    component: RoomsView
+    component: RoomsView,
+    meta: { title: 'Zimmer' }
   },
   {
     path: '/rooms/:id',
     name: 'RoomDetail',
-    component: RoomDetailsView
+    component: RoomDetailsView,
+    meta: { title: 'Zimmer Details' }
   },
   {
     path: '/rooms/:id/book',
     name: 'Booking',
-    component: BookingView
+    component: BookingView,
+    meta: { title: 'Buchung' }
   },
   {
     path: '/impressum',
     name: 'Impressum',
-    component: ImprintView
+    component: ImprintView,
+    meta: { title: 'Impressum' }
   }
 ]
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes
+})
+const DEFAULT_TITLE = 'Boutique Hotel Technikum'
+router.afterEach((to) => {
+  document.title = to.meta.title ? DEFAULT_TITLE + " - " + (to.meta.title as string) : DEFAULT_TITLE
 })
 export default router
