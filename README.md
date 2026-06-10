@@ -25,12 +25,12 @@ This Project is set up to use **Dev Containers** for a better experience between
 4. Now you should be able to develop as if you would normally, but all is done inside the Linux-Container
 #### IntelliJ
 1. Open the main project folder in IntelliJ, then open the services tab on the bottom left and expand the sections Docker, and select "Dev Containers".
-5. There, click on the "Create Dev Container" button, then select "From Local Project" and in "Path to devcontainer.json", choose the file in "./Backend/.devcontainer". Click on "Ok".
+5. There, click on the "Create Dev Container" button, then select "From Local Project" and in "Path to devcontainer.json", choose the file in "./.devcontainer/Backend". Click on "Ok".
 6. IntelliJ will now ask how to open the project. Select "New Window".
 7. In the new window, expand the "Backend/src/main/java" folder, open the "BackendApplication" file and click on the run button. Selecting Java SDK v21, a Maven project sync and executing the "install" task via the Maven menu on the top right might be required first.
 8. The backend should start up now.
 9. Switch to the main project IntelliJ window and select and select "Dev Containers" under "Docker" in the services tab again.
-10. There, click on the "Create Dev Container" button, then select "From Local Project" and in "Path to devcontainer.json", choose the file in "./Frontend/.devcontainer". Click on "Ok".
+10. There, click on the "Create Dev Container" button, then select "From Local Project" and in "Path to devcontainer.json", choose the file in "./.devcontainer/Frontend". Click on "Ok".
 11. IntelliJ will now ask how to open the project. Select "New Window".
 12. In the new window, open the terminal on the bottom left and run "npm run dev". "npm install" might be required first.
 13. The frontend should start up now.

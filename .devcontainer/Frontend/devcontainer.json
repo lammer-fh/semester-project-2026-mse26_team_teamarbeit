@@ -5,7 +5,7 @@
   ],
   "service": "dev-frontend",
   "workspaceFolder": "/workspace/Frontend",
-  "workspaceMount": "source=${localWorkspaceFolder}/..,target=/workspace,type=bind,consistency=cached",
+  "workspaceMount": "src=${localWorkspaceFolder},dst=/workspace,type=bind,consistency=cached",
   "remoteUser": "node",
   "features": {},
   "customizations": {
