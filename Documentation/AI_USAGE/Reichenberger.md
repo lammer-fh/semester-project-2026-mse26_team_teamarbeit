@@ -457,7 +457,7 @@ Der KI-generierte Figma-Make-Prompt wurde somit als Grundlage verwendet, um schn
 ## Session vom 09.06.2026: 
 
 Da ich zuvor noch nie mit Java/Spring Boot gearbeitet habe, habe ich den bereits von
-meinen Kollegen erstellten Code Analysieren und erklären lassen, damit ich dann selbstständig die Backend-Route Book Room erstellen kann.
+meinen Kollegen erstellten Code analysieren und erklären lassen, damit ich dann selbstständig die Backend-Route Book Room erstellen kann.
 
 ## Prompt: 
 ```text
@@ -725,7 +725,7 @@ public class OrderService {
 Kurz gesagt: Verwende @Transactional auf deiner Service-Methode, wirf bei Fehlern Exceptions, und fange diese Exceptions nicht innerhalb der Transaktion ab, ohne sie erneut zu werfen.
 ```
 
-### Diese Prompts haben mir dabei geholfen die Eigenheiten/Untrerschiede und Gemeinsamkeiten zu mir bereits bekannten Frameworks wie: 
+### Diese Prompts haben mir dabei geholfen die Eigenheiten/Unterschiede und Gemeinsamkeiten zu mir bereits bekannten Frameworks wie: 
 - ### .NET
 - ### ASP.NET
 - ### EF Core
@@ -736,7 +736,7 @@ Kurz gesagt: Verwende @Transactional auf deiner Service-Methode, wirf bei Fehler
 
 # Fazit: 
 
-- ### Besonders gut funktioniert die Verwendung von Generativer KI, wenn man bereits ein sehr klares Bild davon hat, wie das Ergebnis am Ende aussehen soll.
+- ### Besonders gut funktioniert die Verwendung von generativer KI, wenn man bereits ein sehr klares Bild davon hat, wie das Ergebnis am Ende aussehen soll.
 - ### Vor allem eine ausführliche Spezifikation, aus der man der KI die notwendigen Abschnitte übergeben kann hilft hier sehr. 
 - ### Auch Code Schnipsel, aus ähnlichen Projekten, die man der KI übergibt damit diese sie als Referenz nutzen kann können das Ergebnis deutlich verbessern. 
 - ### Besonders überascht hat mich hier wie gut die Statischen Pages aus dem Figma Make Prototyp von React nach Vue.js "übersetzt" wurden.
